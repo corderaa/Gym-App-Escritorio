@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gymapp.view.panels.LoginPanel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +28,20 @@ public class MainFrame extends JFrame {
 	 * Constructor of the Main Frame
 	 */
 	public MainFrame() {
-
 		panels = new ArrayList<JPanel>();
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		contentPane.setBounds(100, 100, 1130, 638);
 		setContentPane(contentPane);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1130, 638);
+		contentPane.setLayout(null);
+
+		LoginPanel loginPanel = new LoginPanel(panels);
+		loginPanel.setBounds(0, 0, 1114, 599);
+		panels.add(loginPanel);
+		contentPane.add(loginPanel);
+
 	}
 
 }

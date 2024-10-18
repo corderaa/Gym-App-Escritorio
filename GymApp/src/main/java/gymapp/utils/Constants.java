@@ -4,11 +4,13 @@ public class Constants {
 
 	public static final String JSON_KEY_PATH = "./resources/key.json";
 
-	public static final String FIRESTORE_PROJECT_ID = "";
+	public static final String FIRESTORE_PROJECT_ID = "gym-app-3c700";
 
 	public static final String USER_COLLECTION = "users";
 
 	public static final String USER_AUTHORITY_FIELD = "";
+	
+	public static final String USER_LOGIN_FIELD = "login";
 
 	public static final String USER_BIRTH_DATE_FIELD = "";
 
@@ -21,4 +23,8 @@ public class Constants {
 	public static final String USER_NAME_FIELD = "";
 	
 	public static final String USER_PASSWORD_FIELD = "";
+	
+	public static final int LOGIN_PANEL_ID = 0;
+	
+	public static final int TEST_PANEL_ID = 2; // QUITAR
 }

@@ -12,11 +12,13 @@ public class User implements Serializable {
 
 	private String authority = null;
 
+	private String login = null;
+
 	private String name = null;
 
 	private String lastName = null;
 
-	private String email = null;
+	private String mail = null;
 
 	private String password = null;
 
@@ -44,6 +46,14 @@ public class User implements Serializable {
 		this.authority = authority;
 	}
 
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -60,12 +70,12 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getPassword() {
@@ -98,7 +108,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(authority, birthDate, email, id, lastName, level, name, password);
+		return Objects.hash(authority, birthDate, id, lastName, level, login, mail, name, password);
 	}
 
 	@Override
@@ -111,14 +121,16 @@ public class User implements Serializable {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(authority, other.authority) && Objects.equals(birthDate, other.birthDate)
-				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(level, other.level)
-				&& Objects.equals(name, other.name) && Objects.equals(password, other.password);
+				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(level, other.level) && Objects.equals(login, other.login)
+				&& Objects.equals(mail, other.mail) && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", authority=" + authority + ", name=" + name + ", lastName=" + lastName + ", email="
-				+ email + ", password=" + password + ", birthDate=" + birthDate + ", level=" + level + "]";
+		return "User [id=" + id + ", authority=" + authority + ", login=" + login + ", name=" + name + ", lastName="
+				+ lastName + ", mail=" + mail + ", password=" + password + ", birthDate=" + birthDate + ", level="
+				+ level + "]";
 	}
 }

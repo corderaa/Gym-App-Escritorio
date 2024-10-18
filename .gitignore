@@ -100,3 +100,6 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# IGNORE KEY
+GymApp/resources/key.json
