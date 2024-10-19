@@ -12,13 +12,13 @@ public class User implements Serializable {
 
 	private String authority = null;
 
-	private String login = null;
+	private String login = null; //
 
-	private String name = null;
+	private String name = null;//
 
-	private String lastName = null;
+	private String lastName = null;//
 
-	private String mail = null;
+	private String mail = null;//
 
 	private String password = null;
 

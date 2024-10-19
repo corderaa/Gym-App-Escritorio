@@ -87,25 +87,22 @@ public class LoginPanel extends JPanel {
 		chckbxNewCheckBox.setBounds(389, 387, 97, 23);
 		add(chckbxNewCheckBox);
 
-		try {
-			userService = new UserService();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = new User();
-				user.setLogin(textUserName.getText());
-				user.setPassword(textPassword.getText());
-
 				try {
+					userService = new UserService();
+					User user = new User();
+					user.setLogin(textUserName.getText());
+					user.setPassword(textPassword.getText());
+
 					if (userService.checkCredentials(user)) {
 						// changePanel(Constants.LOGIN_PANEL_ID, panels);
 						JOptionPane.showMessageDialog(null, "is correct"); // TODO: BORRAR PARA CAMBIAR DE PANEL
 					} else {
 						JOptionPane.showMessageDialog(null, "ERROR: Algun campo esta mal introducido");
 					}
+				} catch (IOException e2) {
+					JOptionPane.showMessageDialog(null, "ERROR: " + e2.getMessage());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
@@ -114,14 +111,16 @@ public class LoginPanel extends JPanel {
 		});
 
 		btnRegister.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-				changePanel(Constants.LOGIN_PANEL_ID, panels);
+				changePanel(Constants.REGISTER_PANEL_ID, panels);
 			}
 		});
 	}
 
 	private void changePanel(int panelNumber, List<JPanel> panels) {
-		panels.get(panelNumber);
-		panels.get(0);
+		panels.get(panelNumber).setVisible(true);
+		panels.get(Constants.LOGIN_PANEL_ID).setVisible(false);
+		;
 	}
 }

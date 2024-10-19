@@ -1,11 +1,13 @@
 package gymapp.service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
-import gymapp.model.domain.Exercise;
 import gymapp.model.domain.User;
 import gymapp.model.resource.UserResource;
+import gymapp.utils.Constants;
+import gymapp.utils.DateUtils;
 
 public class UserService implements ServiceInterface<User> {
 
@@ -60,5 +62,20 @@ public class UserService implements ServiceInterface<User> {
 		}
 
 		return false;
+	}
+
+	public User createUser(String name, String lastName, String login, String mail, String password, String birthDate) throws ParseException {
+		User ret = new User();
+
+		ret.setAuthority(Constants.USER_CLIENT_ROLE);
+		ret.setName(null);
+		ret.setLastName(null);
+		ret.setLevel(Integer.toUnsignedLong(0));
+		ret.setLogin(null);
+		ret.setMail(null);
+		ret.setPassword(null);
+		ret.setBirthDate(DateUtils.stringToDate(null));
+
+		return ret;
 	}
 }
