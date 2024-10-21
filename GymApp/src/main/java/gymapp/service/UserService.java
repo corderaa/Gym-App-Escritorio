@@ -50,7 +50,7 @@ public class UserService implements ServiceInterface<User> {
 		}
 		return false;
 	}
-
+	
 	public boolean checkCredentials(User user) throws Exception {
 		User existingUser = null;
 		if (isUserPresent(user)) {
@@ -64,17 +64,18 @@ public class UserService implements ServiceInterface<User> {
 		return false;
 	}
 
-	public User createUser(String name, String lastName, String login, String mail, String password, String birthDate) throws ParseException {
+	public User createUser(String name, String lastName, String login, String mail, String password, String birthDate)
+			throws ParseException {
 		User ret = new User();
 
 		ret.setAuthority(Constants.USER_CLIENT_ROLE);
-		ret.setName(null);
-		ret.setLastName(null);
+		ret.setName(name);
+		ret.setLastName(lastName);
 		ret.setLevel(Integer.toUnsignedLong(0));
-		ret.setLogin(null);
-		ret.setMail(null);
-		ret.setPassword(null);
-		ret.setBirthDate(DateUtils.stringToDate(null));
+		ret.setLogin(login);
+		ret.setMail(mail);
+		ret.setPassword(password);
+		ret.setBirthDate(DateUtils.stringToDate(birthDate));
 
 		return ret;
 	}

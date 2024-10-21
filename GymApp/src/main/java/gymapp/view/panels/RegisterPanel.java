@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class RegisterPanel extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * 
+	 * @throws IOException
 	 */
 	public RegisterPanel(List<JPanel> panels) {
 		this.setVisible(false);
@@ -139,6 +142,9 @@ public class RegisterPanel extends JPanel {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+
+					userService = new UserService();
+
 					if (areTextFieldsFilled()) {
 
 						User newUser = userService.createUser(textName.getText(), textLastName.getText(),

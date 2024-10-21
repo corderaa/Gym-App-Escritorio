@@ -30,7 +30,10 @@ public class Constants {
 
 	public static final int TEST_PANEL_ID = 2; // QUITAR
 
-	public static final String USER_CLIENT_ROLE = "ROLE_CLIENT";
-	
+	public static final String USER_CLIENT_ROLE = "ROLE_USER";
+
 	public static final String USER_TRAINER_ROLE = "ROLE_TRAINER";
+
+	public static final String DATE_FORMAT = "dd/MM/yyyy";
+
 }
