@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import gymapp.view.panels.LoginPanel;
 import gymapp.view.panels.RegisterPanel;
+import gymapp.view.panels.WorkoutsPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,11 @@ public class MainFrame extends JFrame {
 		registerPanel.setBounds(0, 0, 1114, 599);
 		panels.add(registerPanel);
 		contentPane.add(registerPanel);
+		
+		WorkoutsPanel workoutsPanel = new WorkoutsPanel(panels);
+		workoutsPanel.setBounds(0, 0, 1114, 599);
+		panels.add(workoutsPanel);
+		contentPane.add(workoutsPanel);
 
 	}
 

@@ -25,10 +25,10 @@ public class Constants {
 	public static final String USER_PASSWORD_FIELD = "";
 
 	public static final int LOGIN_PANEL_ID = 0;
+	
+	public static final int WORKOUTS_PANEL_ID = 2;
 
 	public static final int REGISTER_PANEL_ID = 1;
-
-	public static final int TEST_PANEL_ID = 2; // QUITAR
 
 	public static final String USER_CLIENT_ROLE = "ROLE_USER";
 

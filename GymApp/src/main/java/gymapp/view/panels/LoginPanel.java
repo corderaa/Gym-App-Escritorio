@@ -96,8 +96,10 @@ public class LoginPanel extends JPanel {
 					user.setPassword(textPassword.getText());
 
 					if (userService.checkCredentials(user)) {
-						// changePanel(Constants.LOGIN_PANEL_ID, panels);
+
+						changePanel(Constants.WORKOUTS_PANEL_ID, panels);
 						JOptionPane.showMessageDialog(null, "is correct"); // TODO: BORRAR PARA CAMBIAR DE PANEL
+
 					} else {
 						JOptionPane.showMessageDialog(null, "ERROR: Algun campo esta mal introducido");
 					}
