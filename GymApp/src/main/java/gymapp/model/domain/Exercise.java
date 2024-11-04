@@ -14,8 +14,6 @@ public class Exercise implements Serializable {
 
 	private String description = null;
 
-	private Instant time = null;
-
 	private Instant rest = null;
 
 	private String imageUrl = null;
@@ -46,14 +44,6 @@ public class Exercise implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Instant getTime() {
-		return time;
-	}
-
-	public void setTime(Instant time) {
-		this.time = time;
 	}
 
 	public Instant getRest() {
@@ -94,7 +84,7 @@ public class Exercise implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, id, imageUrl, name, repetitions, rest, series, time);
+		return Objects.hash(description, id, imageUrl, name, repetitions, rest, series);
 	}
 
 	@Override
@@ -109,13 +99,12 @@ public class Exercise implements Serializable {
 		return Objects.equals(description, other.description) && Objects.equals(id, other.id)
 				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(name, other.name)
 				&& Objects.equals(repetitions, other.repetitions) && Objects.equals(rest, other.rest)
-				&& Objects.equals(series, other.series) && Objects.equals(time, other.time);
+				&& Objects.equals(series, other.series);
 	}
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", name=" + name + ", description=" + description + ", time=" + time + ", rest="
-				+ rest + ", imageUrl=" + imageUrl + ", repetitions=" + repetitions + ", series=" + series + "]";
+		return "Exercise [id=" + id + ", name=" + name + ", description=" + description + ", rest=" + rest
+				+ ", imageUrl=" + imageUrl + ", repetitions=" + repetitions + ", series=" + series + "]";
 	}
-
 }

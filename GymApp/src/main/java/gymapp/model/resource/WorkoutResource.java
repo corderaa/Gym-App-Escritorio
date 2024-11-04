@@ -1,12 +1,14 @@
 package gymapp.model.resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.cloud.firestore.Firestore;
 
 import gymapp.model.Firebase;
 import gymapp.model.domain.Workout;
+import gymapp.utils.UserSession;
 
 public class WorkoutResource implements ResourceInterface<Workout> {
 

@@ -16,13 +16,7 @@ public class Workout implements Serializable {
 
 	private Long level = null;
 
-	private Instant time = null;
-
 	private Instant estimatedTime = null;
-
-	private Date date = null;
-
-	private Date completitionDate = null;
 
 	private String videoURL = null;
 
@@ -52,36 +46,12 @@ public class Workout implements Serializable {
 		this.level = level;
 	}
 
-	public Instant getTime() {
-		return time;
-	}
-
-	public void setTime(Instant time) {
-		this.time = time;
-	}
-
 	public Instant getEstimatedTime() {
 		return estimatedTime;
 	}
 
 	public void setEstimatedTime(Instant estimatedTime) {
 		this.estimatedTime = estimatedTime;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public Date getCompletitionDate() {
-		return completitionDate;
-	}
-
-	public void setCompletitionDate(Date completitionDate) {
-		this.completitionDate = completitionDate;
 	}
 
 	public String getVideoURL() {
@@ -106,7 +76,7 @@ public class Workout implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(completitionDate, date, estimatedTime, exercises, id, level, name, time, videoURL);
+		return Objects.hash(estimatedTime, exercises, id, level, name, videoURL);
 	}
 
 	@Override
@@ -118,18 +88,14 @@ public class Workout implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Workout other = (Workout) obj;
-		return Objects.equals(completitionDate, other.completitionDate) && Objects.equals(date, other.date)
-				&& Objects.equals(estimatedTime, other.estimatedTime) && Objects.equals(exercises, other.exercises)
+		return Objects.equals(estimatedTime, other.estimatedTime) && Objects.equals(exercises, other.exercises)
 				&& Objects.equals(id, other.id) && Objects.equals(level, other.level)
-				&& Objects.equals(name, other.name) && Objects.equals(time, other.time)
-				&& Objects.equals(videoURL, other.videoURL);
+				&& Objects.equals(name, other.name) && Objects.equals(videoURL, other.videoURL);
 	}
 
 	@Override
 	public String toString() {
-		return "Workout [id=" + id + ", name=" + name + ", level=" + level + ", time=" + time + ", estimatedTime="
-				+ estimatedTime + ", date=" + date + ", completitionDate=" + completitionDate + ", videoURL=" + videoURL
-				+ ", exercises=" + exercises + "]";
+		return "Workout [id=" + id + ", name=" + name + ", level=" + level + ", estimatedTime=" + estimatedTime
+				+ ", videoURL=" + videoURL + ", exercises=" + exercises + "]";
 	}
-
 }
