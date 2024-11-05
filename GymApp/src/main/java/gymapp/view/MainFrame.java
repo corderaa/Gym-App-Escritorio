@@ -53,6 +53,7 @@ public class MainFrame extends JFrame {
 		workoutsPanel.setBounds(0, 0, 1114, 599);
 		panels.add(workoutsPanel);
 		contentPane.add(workoutsPanel);
+		workoutsPanel.setVisible(false);
 
 	}
 

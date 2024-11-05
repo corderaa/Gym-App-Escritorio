@@ -7,6 +7,8 @@ public class Constants {
 	public static final String FIRESTORE_PROJECT_ID = "gym-app-3c700";
 
 	public static final String USER_COLLECTION = "users";
+	
+	public static final String WORKOUTS_COLLECTION = "workouts";
 
 	public static final String USER_AUTHORITY_FIELD = "";
 

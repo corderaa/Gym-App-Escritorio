@@ -31,7 +31,7 @@ public class UserService implements ServiceInterface<User> {
 
 	@Override
 	public List<User> findAll() throws Exception {
-		return findAll();
+		return userResource.findAll();
 	}
 
 	@Override
