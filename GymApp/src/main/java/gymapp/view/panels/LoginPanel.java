@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import gymapp.model.domain.User;
 import gymapp.service.UserService;
 import gymapp.utils.Constants;
+import gymapp.utils.UserSession;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -97,6 +98,7 @@ public class LoginPanel extends JPanel {
 
 					if (userService.checkCredentials(user)) {
 
+						UserSession.getInstance().setUser(userService.find(user));
 						changePanel(Constants.WORKOUTS_PANEL_ID, panels);
 						JOptionPane.showMessageDialog(null, "is correct"); // TODO: BORRAR PARA CAMBIAR DE PANEL
 

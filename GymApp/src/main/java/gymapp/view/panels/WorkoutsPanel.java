@@ -1,9 +1,7 @@
 package gymapp.view.panels;
 
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -11,14 +9,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
+import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
 import gymapp.service.WorkoutService;
 import gymapp.utils.Constants;
+import gymapp.utils.UserSession;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 
 public class WorkoutsPanel extends JPanel {
@@ -35,7 +36,7 @@ public class WorkoutsPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public WorkoutsPanel(List<JPanel> panels) {
+	public WorkoutsPanel(List<JPanel> panels, User user) {
 
 		this.setVisible(true);
 		this.setBounds(0, 0, 1114, 599);
@@ -67,6 +68,7 @@ public class WorkoutsPanel extends JPanel {
 		tableWorkouts = new JTable(workoutsModel);
 		workoutsModel.addColumn("Nombre");
 		workoutsModel.addColumn("Nivel");
+		workoutsModel.addColumn("Descripcion");
 		workoutsModel.addColumn("Video");
 		workoutsModel.addColumn("Numero de ejercicios");
 		scrollPaneWorkouts.setViewportView(tableWorkouts);
@@ -94,14 +96,15 @@ public class WorkoutsPanel extends JPanel {
 		exerciseModel.addColumn("Descanso");
 		scrollPaneExercicesDetails.setViewportView(tableExercises);
 
-		JLabel lblNewLabel = new JLabel("Nivel:");
-		lblNewLabel.setForeground(new Color(70, 145, 120));
-		lblNewLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-		lblNewLabel.setBounds(66, 89, 48, 14);
-		add(lblNewLabel);
+		JLabel lblUserLevel = new JLabel("Nivel usuario:");
+		lblUserLevel.setForeground(new Color(70, 145, 120));
+		lblUserLevel.setFont(new Font("SansSerif", Font.BOLD, 14));
+		lblUserLevel.setBounds(66, 89, 111, 14);
+		add(lblUserLevel);
 
 		textFieldLevel = new JTextField();
-		textFieldLevel.setBounds(111, 88, 48, 20);
+		textFieldLevel.setBounds(173, 88, 48, 20);
+		textFieldLevel.setEditable(false);
 		add(textFieldLevel);
 		textFieldLevel.setColumns(10);
 
@@ -135,12 +138,23 @@ public class WorkoutsPanel extends JPanel {
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					workoutsModel.setRowCount(0);
-					displayWorkoutsTable(workoutsModel);
+
 				} catch (Exception e2) {
-					System.err.println(e2.getMessage());
 					JOptionPane.showMessageDialog(null, "Err, Selecciona un workout porfavor");
 				}
+			}
+		});
+
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				try {
+					workoutsModel.setRowCount(0);
+					displayWorkoutsTable(workoutsModel);
+					textFieldLevel.setText(String.valueOf(UserSession.getInstance().getUser().getLevel()));
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error, no hay workouts");
+				}
+
 			}
 		});
 
@@ -157,7 +171,8 @@ public class WorkoutsPanel extends JPanel {
 				if (workoutList.get(i) != null) {
 
 					Object[] row = { workoutList.get(i).getName(), /** workoutList.get(i).getExercises().size(), **/
-							workoutList.get(i).getLevel(), workoutList.get(i).getVideoURL() };
+							workoutList.get(i).getLevel(), workoutList.get(i).getDescription(),
+							workoutList.get(i).getVideoURL() };
 
 					workoutsModel.addRow(row);
 				}

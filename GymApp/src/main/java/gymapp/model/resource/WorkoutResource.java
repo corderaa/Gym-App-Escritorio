@@ -3,24 +3,17 @@ package gymapp.model.resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
-
 import gymapp.model.Firebase;
-import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
-import gymapp.utils.UserSession;
 
 public class WorkoutResource implements ResourceInterface<Workout> {
 
 	private Firestore db = null;
-	private ObjectMapper mapper = null;
 
 	public WorkoutResource() throws IOException {
 		this.db = Firebase.getInstance().getDb();
-		mapper = new ObjectMapper();
 	}
 
 	@Override
@@ -45,8 +38,9 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 		for (QueryDocumentSnapshot workoDocumentSnapshot : workoutDocuments) {
 			Workout workout = new Workout();
 			workout.setName(workoDocumentSnapshot.getString("name"));
-			//workout.setExercises(workoDocumentSnapshot.get("exercises"));
+			// workout.setExercises(workoDocumentSnapshot.get("exercises"));
 			workout.setLevel(workoDocumentSnapshot.getLong("level"));
+			workout.setDescription(workoDocumentSnapshot.getString("description"));
 			workout.setVideoURL(workoDocumentSnapshot.getString("videoUrl"));
 			ret.add(workout);
 		}

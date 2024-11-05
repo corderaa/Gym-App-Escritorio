@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gymapp.model.domain.User;
 import gymapp.view.panels.LoginPanel;
 import gymapp.view.panels.RegisterPanel;
 import gymapp.view.panels.WorkoutsPanel;
@@ -15,6 +16,7 @@ public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private User user;
 	private List<JPanel> panels = null;
 
 	public void run() {
@@ -49,7 +51,7 @@ public class MainFrame extends JFrame {
 		panels.add(registerPanel);
 		contentPane.add(registerPanel);
 		
-		WorkoutsPanel workoutsPanel = new WorkoutsPanel(panels);
+		WorkoutsPanel workoutsPanel = new WorkoutsPanel(panels, user);
 		workoutsPanel.setBounds(0, 0, 1114, 599);
 		panels.add(workoutsPanel);
 		contentPane.add(workoutsPanel);

@@ -2,7 +2,6 @@ package gymapp.model.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +18,8 @@ public class Workout implements Serializable {
 	private Instant estimatedTime = null;
 
 	private String videoURL = null;
+
+	private String description = null;
 
 	private List<Exercise> exercises = null;
 
@@ -62,6 +63,14 @@ public class Workout implements Serializable {
 		this.videoURL = videoURL;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public List<Exercise> getExercises() {
 		return exercises;
 	}
@@ -76,7 +85,7 @@ public class Workout implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(estimatedTime, exercises, id, level, name, videoURL);
+		return Objects.hash(description, estimatedTime, exercises, id, level, name, videoURL);
 	}
 
 	@Override
@@ -88,14 +97,16 @@ public class Workout implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Workout other = (Workout) obj;
-		return Objects.equals(estimatedTime, other.estimatedTime) && Objects.equals(exercises, other.exercises)
-				&& Objects.equals(id, other.id) && Objects.equals(level, other.level)
-				&& Objects.equals(name, other.name) && Objects.equals(videoURL, other.videoURL);
+		return Objects.equals(description, other.description) && Objects.equals(estimatedTime, other.estimatedTime)
+				&& Objects.equals(exercises, other.exercises) && Objects.equals(id, other.id)
+				&& Objects.equals(level, other.level) && Objects.equals(name, other.name)
+				&& Objects.equals(videoURL, other.videoURL);
 	}
 
 	@Override
 	public String toString() {
 		return "Workout [id=" + id + ", name=" + name + ", level=" + level + ", estimatedTime=" + estimatedTime
-				+ ", videoURL=" + videoURL + ", exercises=" + exercises + "]";
+				+ ", videoURL=" + videoURL + ", description=" + description + ", exercises=" + exercises + "]";
 	}
+
 }

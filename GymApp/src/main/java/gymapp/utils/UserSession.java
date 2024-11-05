@@ -10,10 +10,9 @@ public class UserSession {
 
 	public static UserSession getInstance() {
 		if (instance == null) {
-			return new UserSession();
-		} else {
-			return instance;
+			instance = new UserSession();
 		}
+		return instance;
 	}
 
 	public User getUser() {

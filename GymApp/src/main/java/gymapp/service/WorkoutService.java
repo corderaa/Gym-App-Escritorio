@@ -2,10 +2,7 @@ package gymapp.service;
 
 import java.io.IOException;
 import java.util.List;
-
-import gymapp.model.domain.Exercise;
 import gymapp.model.domain.Workout;
-import gymapp.model.resource.UserResource;
 import gymapp.model.resource.WorkoutResource;
 import gymapp.utils.UserSession;
 
@@ -49,7 +46,7 @@ public class WorkoutService implements ServiceInterface<Workout> {
 	public List<Workout> getfilteredWorkouts() throws Exception {
 		List<Workout> ret = null;
 		ret = findAll();
-		ret.removeIf((workout -> !(workout.getLevel() == UserSession.getInstance().getUser().getLevel())));
+		ret.removeIf((workout -> !(workout.getLevel() <= UserSession.getInstance().getUser().getLevel())));
 
 		return ret;
 	}
