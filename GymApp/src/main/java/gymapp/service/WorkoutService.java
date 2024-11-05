@@ -1,7 +1,7 @@
 package gymapp.service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.List;   
 import gymapp.model.domain.Workout;
 import gymapp.model.resource.WorkoutResource;
 import gymapp.utils.UserSession;

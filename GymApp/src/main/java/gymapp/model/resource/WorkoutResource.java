@@ -35,13 +35,13 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 		List<QueryDocumentSnapshot> workoutDocuments = db.collection(gymapp.utils.Constants.WORKOUTS_COLLECTION).get()
 				.get().getDocuments();
 
-		for (QueryDocumentSnapshot workoDocumentSnapshot : workoutDocuments) {
+		for (QueryDocumentSnapshot workoutDocumentSnapshot : workoutDocuments) {
 			Workout workout = new Workout();
-			workout.setName(workoDocumentSnapshot.getString("name"));
-			// workout.setExercises(workoDocumentSnapshot.get("exercises"));
-			workout.setLevel(workoDocumentSnapshot.getLong("level"));
-			workout.setDescription(workoDocumentSnapshot.getString("description"));
-			workout.setVideoURL(workoDocumentSnapshot.getString("videoUrl"));
+			workout.setName(workoutDocumentSnapshot.getString("name"));
+			// workout.setExercises(workoutDocumentSnapshot.get("exercises"));
+			workout.setLevel(workoutDocumentSnapshot.getLong("level"));
+			workout.setDescription(workoutDocumentSnapshot.getString("description"));
+			workout.setVideoURL(workoutDocumentSnapshot.getString("videoUrl"));
 			ret.add(workout);
 		}
 		return ret;
