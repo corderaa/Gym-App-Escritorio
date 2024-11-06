@@ -9,6 +9,8 @@ public class Constants {
 	public static final String USER_COLLECTION = "users";
 	
 	public static final String WORKOUTS_COLLECTION = "workouts";
+	
+	public static final String EXERCISES_COLLECTION = "exercises";
 
 	public static final String USER_AUTHORITY_FIELD = "";
 

@@ -3,6 +3,8 @@ package gymapp.model.resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import gymapp.model.Firebase;
@@ -42,13 +44,24 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 		for (QueryDocumentSnapshot workoutDocumentSnapshot : workoutDocuments) {
 			Workout workout = new Workout();
 			workout.setName(workoutDocumentSnapshot.getString("name"));
-			workout.setExercises((List<Exercise>) workoutDocumentSnapshot.get("exercises"));
-			List<String> exercises = (List<String>) workoutDocumentSnapshot.get("exercises");
-			exerciseResource.findByReference(null);
-			System.out.println(workout.getExercises().get(0));
+			// workout.setExercises((List<Exercise>)
+			// workoutDocumentSnapshot.get("exercises"));
+			List<DocumentReference> exercisesReference = (List<DocumentReference>) workoutDocumentSnapshot
+					.get("exercises");
+
 			workout.setLevel(workoutDocumentSnapshot.getLong("level"));
 			workout.setDescription(workoutDocumentSnapshot.getString("description"));
 			workout.setVideoURL(workoutDocumentSnapshot.getString("videoUrl"));
+
+			List<Exercise> exercises = new ArrayList<>();
+
+			for (DocumentReference exerciseRef : exercisesReference) {
+
+				Exercise exercise = exerciseResource.findByReference(exerciseRef.getId());
+				exercises.add(exercise);
+			}
+			workout.setExercises(exercises);
+
 			ret.add(workout);
 		}
 

@@ -20,6 +20,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class WorkoutsPanel extends JPanel {
@@ -135,6 +137,15 @@ public class WorkoutsPanel extends JPanel {
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
 			}
 		});
+
+		tableWorkouts.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+
+		});
+
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -144,6 +155,8 @@ public class WorkoutsPanel extends JPanel {
 				}
 			}
 		});
+
+		// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 		this.addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
@@ -180,5 +193,12 @@ public class WorkoutsPanel extends JPanel {
 		} else {
 			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
 		}
+	}
+
+	private void displayExerciseTable(DefaultTableModel exerciseModel) {
+
+		
+		
+		
 	}
 }

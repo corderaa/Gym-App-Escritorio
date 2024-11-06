@@ -14,7 +14,7 @@ public class Exercise implements Serializable {
 
 	private String description = null;
 
-	private Instant rest = null;
+	private int rest = 0;
 
 	private String imageUrl = null;
 
@@ -46,11 +46,11 @@ public class Exercise implements Serializable {
 		this.description = description;
 	}
 
-	public Instant getRest() {
+	public int getRest() {
 		return rest;
 	}
 
-	public void setRest(Instant rest) {
+	public void setRest(int rest) {
 		this.rest = rest;
 	}
 
