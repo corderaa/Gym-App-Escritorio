@@ -170,9 +170,9 @@ public class WorkoutsPanel extends JPanel {
 			for (int i = 0; i < workoutList.size(); i++) {
 				if (workoutList.get(i) != null) {
 
-					Object[] row = { workoutList.get(i).getName(), /** workoutList.get(i).getExercises().size(), **/
-							workoutList.get(i).getLevel(), workoutList.get(i).getDescription(),
-							workoutList.get(i).getVideoURL() };
+					Object[] row = { workoutList.get(i).getName(), workoutList.get(i).getLevel(),
+							workoutList.get(i).getDescription(), workoutList.get(i).getVideoURL(),
+							workoutList.get(i).getExercises().size() };
 
 					workoutsModel.addRow(row);
 				}

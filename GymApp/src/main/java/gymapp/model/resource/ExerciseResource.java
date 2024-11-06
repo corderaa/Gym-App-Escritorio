@@ -2,7 +2,6 @@ package gymapp.model.resource;
 
 import java.io.IOException;
 import java.util.List;
-
 import com.google.cloud.firestore.Firestore;
 import gymapp.model.Firebase;
 import gymapp.model.domain.Exercise;
@@ -18,7 +17,7 @@ public class ExerciseResource implements ResourceInterface<Exercise> {
 	@Override
 	public void save(Exercise t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -36,12 +35,20 @@ public class ExerciseResource implements ResourceInterface<Exercise> {
 	@Override
 	public void update(Exercise t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(Exercise t) throws Exception {
 		// TODO Auto-generated method stub
+
+	}
+
+	public Exercise findByReference(String ref) throws Exception {
+		Exercise ret = new Exercise();
+
 		
+		
+		return ret;
 	}
 }

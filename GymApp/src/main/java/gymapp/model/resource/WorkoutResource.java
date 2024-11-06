@@ -6,14 +6,18 @@ import java.util.List;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import gymapp.model.Firebase;
+import gymapp.model.domain.Exercise;
 import gymapp.model.domain.Workout;
 
 public class WorkoutResource implements ResourceInterface<Workout> {
 
 	private Firestore db = null;
+	private ExerciseResource exerciseResource = null;
 
 	public WorkoutResource() throws IOException {
 		this.db = Firebase.getInstance().getDb();
+		this.exerciseResource = new ExerciseResource();
+
 	}
 
 	@Override
@@ -38,12 +42,16 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 		for (QueryDocumentSnapshot workoutDocumentSnapshot : workoutDocuments) {
 			Workout workout = new Workout();
 			workout.setName(workoutDocumentSnapshot.getString("name"));
-			// workout.setExercises(workoutDocumentSnapshot.get("exercises"));
+			workout.setExercises((List<Exercise>) workoutDocumentSnapshot.get("exercises"));
+			List<String> exercises = (List<String>) workoutDocumentSnapshot.get("exercises");
+			exerciseResource.findByReference(null);
+			System.out.println(workout.getExercises().get(0));
 			workout.setLevel(workoutDocumentSnapshot.getLong("level"));
 			workout.setDescription(workoutDocumentSnapshot.getString("description"));
 			workout.setVideoURL(workoutDocumentSnapshot.getString("videoUrl"));
 			ret.add(workout);
 		}
+
 		return ret;
 	}
 
