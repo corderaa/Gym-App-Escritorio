@@ -22,6 +22,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class WorkoutsPanel extends JPanel {
@@ -141,6 +142,14 @@ public class WorkoutsPanel extends JPanel {
 		tableWorkouts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				try {
+					if (e.getClickCount() == 2) {
+						exerciseModel.setRowCount(0);
+						displayExerciseTable(exerciseModel);
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
+				}
 
 			}
 
@@ -155,8 +164,6 @@ public class WorkoutsPanel extends JPanel {
 				}
 			}
 		});
-
-		// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 		this.addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
@@ -195,10 +202,27 @@ public class WorkoutsPanel extends JPanel {
 		}
 	}
 
-	private void displayExerciseTable(DefaultTableModel exerciseModel) {
+	private void displayExerciseTable(DefaultTableModel exerciseModel) throws Exception {
 
-		
-		
-		
+		WorkoutService workoutService = new WorkoutService();
+
+		List<Workout> workoutList = workoutService.getfilteredWorkouts();
+
+		if (null != workoutList) {
+			for (int i = 0; i < workoutList.size(); i++) {
+				if (workoutList.get(i) != null) {
+
+					Object[] row = { workoutList.get(i).getExercises().get(i).getName(),
+							workoutList.get(i).getExercises().get(i).getSeries(),
+							workoutList.get(i).getExercises().get(i).getDescription(),
+							workoutList.get(i).getExercises().get(i).getRest() };
+
+					exerciseModel.addRow(row);
+				}
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
+
+		}
 	}
 }

@@ -48,7 +48,6 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 			// workoutDocumentSnapshot.get("exercises"));
 			List<DocumentReference> exercisesReference = (List<DocumentReference>) workoutDocumentSnapshot
 					.get("exercises");
-
 			workout.setLevel(workoutDocumentSnapshot.getLong("level"));
 			workout.setDescription(workoutDocumentSnapshot.getString("description"));
 			workout.setVideoURL(workoutDocumentSnapshot.getString("videoUrl"));
