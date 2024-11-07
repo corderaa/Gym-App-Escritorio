@@ -136,6 +136,7 @@ public class WorkoutsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				panels.get(Constants.LOGIN_PANEL_ID).setVisible(true);
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
+				exerciseModel.setRowCount(0);
 			}
 		});
 
@@ -186,7 +187,11 @@ public class WorkoutsPanel extends JPanel {
 
 		List<Workout> workoutList = workoutService.getfilteredWorkouts();
 
-		if (null != workoutList) {
+		if (workoutList == null || workoutList.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
+			return;
+
+		} else {
 			for (int i = 0; i < workoutList.size(); i++) {
 				if (workoutList.get(i) != null) {
 
@@ -196,10 +201,10 @@ public class WorkoutsPanel extends JPanel {
 
 					workoutsModel.addRow(row);
 				}
+				JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
 		}
+
 	}
 
 	private void displayExerciseTable(DefaultTableModel exerciseModel) throws Exception {
