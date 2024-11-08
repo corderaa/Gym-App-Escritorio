@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import gymapp.model.domain.User;
+import gymapp.view.panels.HistoryPanel;
 import gymapp.view.panels.LoginPanel;
 import gymapp.view.panels.RegisterPanel;
 import gymapp.view.panels.WorkoutsPanel;
@@ -56,6 +57,12 @@ public class MainFrame extends JFrame {
 		panels.add(workoutsPanel);
 		contentPane.add(workoutsPanel);
 		workoutsPanel.setVisible(false);
+		
+		HistoryPanel historyPanel = new HistoryPanel(panels, user);
+		historyPanel.setBounds(0, 0, 1114, 599);
+		panels.add(historyPanel);
+		contentPane.add(historyPanel);
+		historyPanel.setVisible(false);
 
 	}
 
