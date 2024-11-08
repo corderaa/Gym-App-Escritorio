@@ -22,7 +22,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class WorkoutsPanel extends JPanel {
@@ -35,6 +34,7 @@ public class WorkoutsPanel extends JPanel {
 	private DefaultTableModel workoutsModel;
 	private DefaultTableModel exerciseModel;
 	private JTextField textFieldLevel;
+	private List<Workout> workoutList;
 
 	/**
 	 * Create the panel.
@@ -69,11 +69,13 @@ public class WorkoutsPanel extends JPanel {
 		};
 
 		tableWorkouts = new JTable(workoutsModel);
+		workoutsModel.addColumn("Id Del Workout");
 		workoutsModel.addColumn("Nombre");
 		workoutsModel.addColumn("Nivel");
 		workoutsModel.addColumn("Descripcion");
 		workoutsModel.addColumn("Video");
 		workoutsModel.addColumn("Numero de ejercicios");
+		tableWorkouts.removeColumn(tableWorkouts.getColumn("Id Del Workout"));
 		scrollPaneWorkouts.setViewportView(tableWorkouts);
 
 		/**
@@ -139,7 +141,7 @@ public class WorkoutsPanel extends JPanel {
 				exerciseModel.setRowCount(0);
 			}
 		});
-		
+
 		btnHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panels.get(Constants.HISTORY_PANEL_ID).setVisible(true);
@@ -154,9 +156,10 @@ public class WorkoutsPanel extends JPanel {
 				try {
 					if (e.getClickCount() == 2) {
 						exerciseModel.setRowCount(0);
-						displayExerciseTable(exerciseModel);
+						displayExerciseTable();
 					}
 				} catch (Exception e1) {
+					System.out.println(e1.getMessage());
 					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 				}
 
@@ -178,7 +181,7 @@ public class WorkoutsPanel extends JPanel {
 			public void componentShown(ComponentEvent e) {
 				try {
 					workoutsModel.setRowCount(0);
-					displayWorkoutsTable(workoutsModel);
+					displayWorkoutsTable();
 					textFieldLevel.setText(String.valueOf(UserSession.getInstance().getUser().getLevel()));
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error, no hay workouts");
@@ -189,11 +192,10 @@ public class WorkoutsPanel extends JPanel {
 
 	}
 
-	private void displayWorkoutsTable(DefaultTableModel workoutsModel) throws Exception {
+	private void displayWorkoutsTable() throws Exception {
 
 		WorkoutService workoutService = new WorkoutService();
-
-		List<Workout> workoutList = workoutService.getfilteredWorkouts();
+		workoutList = workoutService.getfilteredWorkouts();
 
 		if (workoutList == null || workoutList.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
@@ -202,41 +204,42 @@ public class WorkoutsPanel extends JPanel {
 			for (int i = 0; i < workoutList.size(); i++) {
 				if (workoutList.get(i) != null) {
 
-					Object[] row = { workoutList.get(i).getName(), workoutList.get(i).getLevel(),
-							workoutList.get(i).getDescription(), workoutList.get(i).getVideoURL(),
-							workoutList.get(i).getExercises().size() };
+					Object[] row = { workoutList.get(i).getId(), workoutList.get(i).getName(),
+							workoutList.get(i).getLevel(), workoutList.get(i).getDescription(),
+							workoutList.get(i).getVideoURL(), workoutList.get(i).getExercises().size() };
 
 					workoutsModel.addRow(row);
 				} else {
 					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 				}
-				
+
 			}
 		}
 
 	}
 
-	private void displayExerciseTable(DefaultTableModel exerciseModel) throws Exception {
+	private void displayExerciseTable() throws Exception {
 
-		WorkoutService workoutService = new WorkoutService();
-
-		List<Workout> workoutList = workoutService.getfilteredWorkouts();
-
-		if (null != workoutList) {
-			for (int i = 0; i < workoutList.size(); i++) {
-				if (workoutList.get(i) != null) {
-
-					Object[] row = { workoutList.get(i).getExercises().get(i).getName(),
-							workoutList.get(i).getExercises().get(i).getSeries(),
-							workoutList.get(i).getExercises().get(i).getDescription(),
-							workoutList.get(i).getExercises().get(i).getRest() };
+		for (int i = 0; i < workoutList.size(); i++) {
+			if (workoutList.get(i) != null && workoutList.get(i).getId() == getSelectedWorkoutId()) {
+				for (int e = 0; e < workoutList.get(i).getExercises().size(); e++) {
+					Object[] row = { workoutList.get(i).getExercises().get(e).getName(),
+							workoutList.get(i).getExercises().get(e).getSeries(),
+							workoutList.get(i).getExercises().get(e).getDescription(),
+							workoutList.get(i).getExercises().get(e).getRest() };
 
 					exerciseModel.addRow(row);
 				}
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
 
+			}
 		}
 	}
+
+	private String getSelectedWorkoutId() {
+		String ret = null;
+		if (tableWorkouts.getRowCount() > 0)
+			ret = (String) workoutsModel.getValueAt(tableWorkouts.getSelectedRow(), 0);
+		return ret;
+	}
+
 }
