@@ -16,7 +16,7 @@ import gymapp.model.domain.History;
 import gymapp.model.domain.Workout;
 import gymapp.utils.UserSession;
 
-public class HistoryResource implements ResourceInterface<History>{
+public class HistoryResource implements ResourceInterface<History> {
 
 	private Firestore db = null;
 	private String login = null;
@@ -28,7 +28,7 @@ public class HistoryResource implements ResourceInterface<History>{
 	@Override
 	public void save(History t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -42,23 +42,26 @@ public class HistoryResource implements ResourceInterface<History>{
 		List<History> ret = new ArrayList<History>();
 		login = UserSession.getInstance().getUser().getLogin();
 
-		ApiFuture<QuerySnapshot> query = db.collection(gymapp.utils.Constants.USER_COLLECTION).whereEqualTo("login", login).get();
+		ApiFuture<QuerySnapshot> query = db.collection(gymapp.utils.Constants.USER_COLLECTION)
+				.whereEqualTo("login", login).get();
 		
 		QuerySnapshot querySnapshot = query.get();
-		
+
 		List<QueryDocumentSnapshot> usersDocuments = querySnapshot.getDocuments();
+		if (usersDocuments != null && !usersDocuments.isEmpty()) {
+			
+			for (QueryDocumentSnapshot historyDocumentSnapshot : usersDocuments) {
+				History history = new History();
+				history.setName(historyDocumentSnapshot.getString("name"));
+				history.setLevel(historyDocumentSnapshot.getLong("level"));
+				history.setEstimatedTime(historyDocumentSnapshot.getString("estimatedTime"));
+				history.setTime(historyDocumentSnapshot.getString("time"));
+				history.setVideoURL(historyDocumentSnapshot.getString("videoUrl"));
+				history.setCompletionProgress(historyDocumentSnapshot.getString("completionProgress"));
+				history.setDate(historyDocumentSnapshot.getString("date"));
 
-		for (QueryDocumentSnapshot historyDocumentSnapshot : usersDocuments) {
-			History history = new History();
-			history.setName(historyDocumentSnapshot.getString("name"));
-			history.setLevel(historyDocumentSnapshot.getLong("level"));
-			history.setEstimatedTime(historyDocumentSnapshot.getString("estimatedTime"));
-			history.setTime(historyDocumentSnapshot.getString("time"));
-			history.setVideoURL(historyDocumentSnapshot.getString("videoUrl"));
-			history.setCompletionProgress(historyDocumentSnapshot.getString("completionProgress"));
-			history.setDate(historyDocumentSnapshot.getString("date"));
-
-			ret.add(history);
+				ret.add(history);
+			}
 		}
 
 		return ret;
@@ -67,15 +70,13 @@ public class HistoryResource implements ResourceInterface<History>{
 	@Override
 	public void update(History t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(History t) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }
