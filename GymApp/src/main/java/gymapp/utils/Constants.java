@@ -37,6 +37,8 @@ public class Constants {
 	public static final int REGISTER_PANEL_ID = 1;
 	
 	public static final int HISTORY_PANEL_ID = 3;
+	
+	public static final int EXERCISES_PANEL_ID = 4;
 
 	public static final String USER_CLIENT_ROLE = "ROLE_USER";
 
