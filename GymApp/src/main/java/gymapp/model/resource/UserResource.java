@@ -28,7 +28,7 @@ public class UserResource implements ResourceInterface<User> {
 		map.remove("id");
 		db.collection(gymapp.utils.Constants.USER_COLLECTION).add(map);
 		db.close();
-	}
+	}	
 
 	public List<User> findAll() throws Exception {
 		List<User> ret = new ArrayList<User>();

@@ -7,6 +7,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 
+import gymapp.utils.CheckConectivity;
 import gymapp.utils.Constants;
 
 public class Firebase {
@@ -17,6 +18,7 @@ public class Firebase {
 
 	public Firebase() throws IOException {
 		db = makeFirestore();
+
 	}
 
 	/**

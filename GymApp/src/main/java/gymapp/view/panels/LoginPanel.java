@@ -108,7 +108,6 @@ public class LoginPanel extends JPanel {
 				} catch (IOException e2) {
 					JOptionPane.showMessageDialog(null, "ERROR: " + e2.getMessage());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
 				}
 			}
