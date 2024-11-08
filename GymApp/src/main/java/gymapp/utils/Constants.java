@@ -11,6 +11,8 @@ public class Constants {
 	public static final String WORKOUTS_COLLECTION = "workouts";
 	
 	public static final String EXERCISES_COLLECTION = "exercises";
+	
+	public static final String HISTORY_COLLECTION = "history";
 
 	public static final String USER_AUTHORITY_FIELD = "";
 
