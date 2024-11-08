@@ -189,7 +189,6 @@ public class WorkoutsPanel extends JPanel {
 
 		if (workoutList == null || workoutList.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");
-			return;
 
 		} else {
 			for (int i = 0; i < workoutList.size(); i++) {
@@ -200,8 +199,10 @@ public class WorkoutsPanel extends JPanel {
 							workoutList.get(i).getExercises().size() };
 
 					workoutsModel.addRow(row);
+				} else {
+					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 				}
-				JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
+				
 			}
 		}
 
