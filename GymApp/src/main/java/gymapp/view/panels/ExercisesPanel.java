@@ -29,12 +29,12 @@ public class ExercisesPanel extends JPanel {
 		this.setBounds(0, 0, 1114, 599);
 		setLayout(null);
 		
-		JLabel lblWorkoutsTitle = new JLabel("WORKOUTS");
-		lblWorkoutsTitle.setForeground(new Color(70, 145, 120));
-		lblWorkoutsTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWorkoutsTitle.setFont(new Font("SansSerif", Font.BOLD, 39));
-		lblWorkoutsTitle.setBounds(381, 45, 352, 85);
-		add(lblWorkoutsTitle);
+		JLabel lblWorkoutsName = new JLabel("WORKOUTS");
+		lblWorkoutsName.setForeground(new Color(70, 145, 120));
+		lblWorkoutsName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWorkoutsName.setFont(new Font("SansSerif", Font.BOLD, 39));
+		lblWorkoutsName.setBounds(172, 45, 769, 85);
+		add(lblWorkoutsName);
 		
 		scrollPaneeExercises = new JScrollPane();
 		scrollPaneeExercises.setBounds(68, 264, 981, 158);
@@ -55,30 +55,30 @@ public class ExercisesPanel extends JPanel {
 		exercisesModel.addColumn("Descanso");
 		scrollPaneeExercises.setViewportView(tableExercises);
 		
-		JLabel lblNewLabel = new JLabel("WORKOUT");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(178, 163, 133, 25);
-		lblNewLabel.setForeground(new Color(70, 145, 120));
-		add(lblNewLabel);
+		JLabel lblWorkout = new JLabel("WORKOUT");
+		lblWorkout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWorkout.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblWorkout.setBounds(178, 163, 133, 25);
+		lblWorkout.setForeground(new Color(70, 145, 120));
+		add(lblWorkout);
 		
-		JButton btnNewButton = new JButton("PARAR");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnStop = new JButton("PARAR");
+		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBounds(359, 452, 147, 84);
-		btnNewButton.setBackground(new Color(70, 145, 120));
-		add(btnNewButton);
+		btnStop.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnStop.setForeground(new Color(255, 255, 255));
+		btnStop.setBounds(359, 452, 147, 84);
+		btnStop.setBackground(new Color(70, 145, 120));
+		add(btnStop);
 		
-		JButton btnNewButton_1 = new JButton("PAUSAR");
-		btnNewButton_1.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnNewButton_1.setForeground(new Color(255, 255, 255));
-		btnNewButton_1.setBounds(615, 452, 147, 84);
-		btnNewButton_1.setBackground(new Color(70, 145, 120));
-		add(btnNewButton_1);
+		JButton btnPause = new JButton("PAUSAR");
+		btnPause.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnPause.setForeground(new Color(255, 255, 255));
+		btnPause.setBounds(615, 452, 147, 84);
+		btnPause.setBackground(new Color(70, 145, 120));
+		add(btnPause);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("00.00.00");
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -98,19 +98,19 @@ public class ExercisesPanel extends JPanel {
 		lblNewLabel_1_2_2.setBounds(800, 205, 133, 31);
 		add(lblNewLabel_1_2_2);
 		
-		JLabel lblNewLabel_1 = new JLabel("SERIES");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(70, 145, 120));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(489, 163, 133, 25);
-		add(lblNewLabel_1);
+		JLabel lblSeries = new JLabel("SERIES");
+		lblSeries.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSeries.setForeground(new Color(70, 145, 120));
+		lblSeries.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSeries.setBounds(489, 163, 133, 25);
+		add(lblSeries);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("EJERCICIO");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1.setForeground(new Color(70, 145, 120));
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1_1.setBounds(800, 163, 133, 25);
-		add(lblNewLabel_1_1);
+		JLabel lblExercises = new JLabel("EJERCICIO");
+		lblExercises.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExercises.setForeground(new Color(70, 145, 120));
+		lblExercises.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblExercises.setBounds(800, 163, 133, 25);
+		add(lblExercises);
 		
 	}
 }

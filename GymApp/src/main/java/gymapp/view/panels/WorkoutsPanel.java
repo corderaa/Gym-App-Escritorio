@@ -1,6 +1,7 @@
 package gymapp.view.panels;
 
 import java.awt.Font;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -169,16 +170,19 @@ public class WorkoutsPanel extends JPanel {
 
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
 
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Err, Selecciona un workout porfavor");
+				if (-1 != tableExercises.getSelectedRow()) {
+					panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
+					panels.get(Constants.EXERCISES_PANEL_ID).setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Err, Selecciona un ejercicio porfavor");
 				}
 			}
 		});
 
 		this.addComponentListener(new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
+
 				try {
 					workoutsModel.setRowCount(0);
 					displayWorkoutsTable();
