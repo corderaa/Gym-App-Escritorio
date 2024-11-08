@@ -139,6 +139,14 @@ public class WorkoutsPanel extends JPanel {
 				exerciseModel.setRowCount(0);
 			}
 		});
+		
+		btnHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panels.get(Constants.HISTORY_PANEL_ID).setVisible(true);
+				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
+				exerciseModel.setRowCount(0);
+			}
+		});
 
 		tableWorkouts.addMouseListener(new MouseAdapter() {
 			@Override
