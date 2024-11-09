@@ -40,6 +40,7 @@ public class WorkoutsPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+
 	public WorkoutsPanel(List<JPanel> panels, User user) {
 
 		this.setVisible(true);
