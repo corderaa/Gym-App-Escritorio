@@ -1,10 +1,19 @@
 package gymapp.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import gymapp.model.domain.Exercise;
 import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
+import gymapp.utils.processes.ReadProcess;
 
 public class Backup {
 
@@ -36,8 +45,42 @@ public class Backup {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	public void loadData() {
-		
+
+	public void setExercises() throws IOException, ClassNotFoundException {
+		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c", Constants.READ_BACKUP_COMMAND);
+		Process process = processBuilder.start();
+
+		ObjectInputStream objectInputStream = new ObjectInputStream(process.getInputStream());
+
+		this.exercises = (List<Exercise>) objectInputStream.readObject();
+
+		objectInputStream.close();
+	}
+
+	public void setWorkouts() throws IOException, ClassNotFoundException {
+		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c", Constants.READ_BACKUP_COMMAND);
+		Process process = processBuilder.start();
+
+		ObjectInputStream objectInputStream = new ObjectInputStream(process.getInputStream());
+
+		this.workouts = (List<Workout>) objectInputStream.readObject();
+
+		objectInputStream.close();
+	}
+
+	public void backupExercises(List<Exercise> exercises) throws FileNotFoundException, IOException {
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+				new FileOutputStream(new File(Constants.EXERCISE_BACKUP_FILE_NAME)));
+
+		objectOutputStream.writeObject(exercises);
+		objectOutputStream.close();
+	}
+
+	public void backupWorkouts(List<Workout> workouts) throws FileNotFoundException, IOException {
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+				new FileOutputStream(new File(Constants.WORKOUT_BACKUP_FILE_NAME)));
+
+		objectOutputStream.writeObject(workouts);
+		objectOutputStream.close();
 	}
 }
