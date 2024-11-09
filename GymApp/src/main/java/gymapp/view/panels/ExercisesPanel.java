@@ -156,7 +156,7 @@ public class ExercisesPanel extends JPanel {
 
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				panels.get(Constants.EXERCISES_PANEL_ID).setVisible(false);
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(true);
 
