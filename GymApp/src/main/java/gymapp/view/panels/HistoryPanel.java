@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,7 +21,6 @@ import gymapp.model.domain.History;
 import gymapp.model.domain.User;
 import gymapp.service.HistoryService;
 import gymapp.utils.Constants;
-import gymapp.utils.UserSession;
 
 public class HistoryPanel extends JPanel {
 
@@ -30,7 +28,6 @@ public class HistoryPanel extends JPanel {
 	private JScrollPane scrollPaneHistory;
 	private DefaultTableModel historyModel;
 	private JTable tableWorkouts;
-	private JTextField textFieldLevel;
 
 	/**
 	 * Create the panel.
@@ -81,7 +78,6 @@ public class HistoryPanel extends JPanel {
 				try {
 					historyModel.setRowCount(0);
 					displayHistoryTable(historyModel);
-					textFieldLevel.setText(String.valueOf(UserSession.getInstance().getUser().getLevel()));
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error, no hay workouts");
 				}

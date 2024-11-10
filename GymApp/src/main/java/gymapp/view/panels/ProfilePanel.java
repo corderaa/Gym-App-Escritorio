@@ -5,7 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.ParseException;
 import java.util.List;
 
@@ -13,16 +14,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import gymapp.model.domain.User;
 import gymapp.service.UserService;
 import gymapp.utils.Constants;
+import gymapp.utils.UserSession;
 
-import javax.swing.JScrollPane;
-
-public class RegisterPanel extends JPanel {
+public class ProfilePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private UserService userService = null;
@@ -32,42 +33,35 @@ public class RegisterPanel extends JPanel {
 	private JTextField textEmail;
 	private JTextField textBirthDate;
 	private JTextField textPassword;
+	private boolean isConfirmed = false;
 
 	/**
 	 * Create the panel.
-	 * 
-	 * @throws IOException
 	 */
-	public RegisterPanel(List<JPanel> panels) {
+	public ProfilePanel(List<JPanel> panels) {
 		this.setVisible(false);
 		this.setBounds(0, 0, 1114, 599);
 		this.setLayout(null);
 
-		JLabel lblRegisterTitle = new JLabel("Registrarse");
-		lblRegisterTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegisterTitle.setFont(new Font("SansSerif", Font.PLAIN, 39));
-		lblRegisterTitle.setBounds(389, 61, 352, 85);
-		add(lblRegisterTitle);
+		JLabel lblProfileTitle = new JLabel("Perfil");
+		lblProfileTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblProfileTitle.setFont(new Font("SansSerif", Font.PLAIN, 39));
+		lblProfileTitle.setBounds(389, 61, 352, 85);
+		add(lblProfileTitle);
 
-		JButton btnRegister = new JButton("Registrarse");
-		btnRegister.setFont(new Font("SansSerif", Font.PLAIN, 15));
-		btnRegister.setBackground(new Color(70, 145, 120));
-		btnRegister.setForeground(new Color(0, 0, 0));
-		btnRegister.setBounds(389, 432, 352, 39);
-		add(btnRegister);
+		JButton btnModify = new JButton("Modificar");
+		btnModify.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		btnModify.setBackground(new Color(70, 145, 120));
+		btnModify.setForeground(new Color(0, 0, 0));
+		btnModify.setBounds(389, 432, 352, 39);
+		add(btnModify);
 
-		JButton btnLogin = new JButton("Iniciar sesion");
-
-		btnLogin.setForeground(new Color(255, 255, 255));
-		btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 12));
-		btnLogin.setBackground(new Color(74, 74, 74));
-		btnLogin.setBounds(435, 513, 259, 30);
-		add(btnLogin);
-
-		JLabel lblNewLabel = new JLabel(" ¿Ya tienes cuenta? Inicia sesion aqui");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(389, 486, 352, 14);
-		add(lblNewLabel);
+		JButton btnReturn = new JButton("Volver");
+		btnReturn.setForeground(new Color(255, 255, 255));
+		btnReturn.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		btnReturn.setBackground(new Color(74, 74, 74));
+		btnReturn.setBounds(435, 513, 259, 30);
+		add(btnReturn);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(389, 157, 352, 223);
@@ -85,11 +79,13 @@ public class RegisterPanel extends JPanel {
 		textLogin = new JTextField();
 		textLogin.setBounds(10, 36, 313, 28);
 		scrollPanel.add(textLogin);
+		textLogin.setEditable(false);
 		textLogin.setColumns(10);
 
 		textName = new JTextField();
 		textName.setColumns(10);
 		textName.setBounds(10, 100, 313, 28);
+		textName.setEditable(false);
 		scrollPanel.add(textName);
 
 		JLabel lblName = new JLabel("Nombre");
@@ -98,6 +94,7 @@ public class RegisterPanel extends JPanel {
 
 		textLastName = new JTextField();
 		textLastName.setColumns(10);
+		textLastName.setEditable(false);
 		textLastName.setBounds(10, 164, 313, 28);
 		scrollPanel.add(textLastName);
 
@@ -107,6 +104,7 @@ public class RegisterPanel extends JPanel {
 
 		textEmail = new JTextField();
 		textEmail.setColumns(10);
+		textEmail.setEditable(false);
 		textEmail.setBounds(10, 228, 313, 28);
 		scrollPanel.add(textEmail);
 
@@ -116,6 +114,7 @@ public class RegisterPanel extends JPanel {
 
 		textBirthDate = new JTextField();
 		textBirthDate.setColumns(10);
+		textBirthDate.setEditable(false);
 		textBirthDate.setBounds(10, 292, 313, 28);
 		scrollPanel.add(textBirthDate);
 
@@ -125,52 +124,77 @@ public class RegisterPanel extends JPanel {
 
 		textPassword = new JTextField();
 		textPassword.setColumns(10);
+		textPassword.setEditable(false);
 		textPassword.setBounds(10, 356, 313, 28);
 		scrollPanel.add(textPassword);
 
 		JLabel lblPassword = new JLabel("Contraseña");
 		lblPassword.setBounds(10, 331, 120, 14);
 		scrollPanel.add(lblPassword);
-
-		btnRegister.addActionListener(new ActionListener() {
+		
+		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
+				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(true);
+				panels.get(Constants.PROFILE_PANEL_ID).setVisible(false);
+			}
+		});
+		
+		btnModify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!isConfirmed) {
+					btnModify.setText("Confirmar");
+					textName.setEditable(true);
+					textLastName.setEditable(true);
+					textEmail.setEditable(true);
+					textBirthDate.setEditable(true);
+					textPassword.setEditable(true);
+					isConfirmed = !isConfirmed;
+				} else {
+					try {
 
-					userService = new UserService();
+						userService = new UserService();
 
-					if (areTextFieldsFilled()) {
+						if (areTextFieldsFilled()) {
 
-						User newUser = userService.createUser(textName.getText(), textLastName.getText(),
-								textLogin.getText(), textEmail.getText(), textPassword.getText(),
-								textBirthDate.getText());
-						if (!userService.isUserPresent(newUser)) {
-							userService.save(newUser);
-							JOptionPane.showMessageDialog(null, "Usuario registrado con exito!!!");
-							changePanel(Constants.LOGIN_PANEL_ID, panels);
+							User modifiedUser = userService.createUser(textName.getText(), textLastName.getText(),
+									textLogin.getText(), textEmail.getText(), textPassword.getText(),
+									textBirthDate.getText());
+								userService.upodate(modifiedUser);
+								btnModify.setText("Modificar");
+								textName.setEditable(false);
+								textLastName.setEditable(false);
+								textEmail.setEditable(false);
+								textBirthDate.setEditable(false);
+								textPassword.setEditable(false);
+								isConfirmed = !isConfirmed;
 						} else
-							JOptionPane.showMessageDialog(null, "Error: El usuario ya existe");
-					} else
-						JOptionPane.showMessageDialog(null, "Error: Algun campo esta sin rellenar");
-				} catch (ParseException e1) {
-					JOptionPane.showMessageDialog(null, "Porfavor, comprueba si la fecha tiene el formato correcto");
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
+							JOptionPane.showMessageDialog(null, "Error: Algun campo esta sin rellenar");
+					} catch (ParseException e1) {
+						JOptionPane.showMessageDialog(null, "Por favor, comprueba si la fecha tiene el formato correcto");
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
+					}
 				}
 			}
 		});
+		
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				try {
+					User userInfo = UserSession.getInstance().getUser();
+					textLogin.setText(userInfo.getLogin());
+					textName.setText(userInfo.getName());
+					textLastName.setText(userInfo.getLastName());
+					textEmail.setText(userInfo.getMail());
+					textBirthDate.setText(userInfo.getBirthDate().toString());
+					textPassword.setText(userInfo.getPassword());
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error, no hay workouts");
+				}
 
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				changePanel(Constants.LOGIN_PANEL_ID, panels);
 			}
 		});
 	}
-
-	private void changePanel(int panelNumber, List<JPanel> panels) {
-		panels.get(panelNumber).setVisible(true);
-		panels.get(Constants.REGISTER_PANEL_ID).setVisible(false);
-	}
-
 	private boolean areTextFieldsFilled() {
 		if (!textBirthDate.getText().isBlank() || !textBirthDate.getText().isEmpty() || !textLogin.getText().isBlank()
 				|| !textLogin.getText().isEmpty() || !textName.getText().isBlank() || !textName.getText().isEmpty()

@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 
 import gymapp.model.Firebase;
 import gymapp.model.domain.User;
+import gymapp.utils.UserSession;
 
 public class UserResource implements ResourceInterface<User> {
 
@@ -57,9 +60,27 @@ public class UserResource implements ResourceInterface<User> {
 	}
 
 	@Override
-	public void update(User t) throws Exception {
-		// TODO Auto-generated method stub
+	public void update(User user) throws Exception {
+		String login = null;
+		login = UserSession.getInstance().getUser().getLogin();
 
+		ApiFuture<QuerySnapshot> query = db.collection(gymapp.utils.Constants.USER_COLLECTION)
+				.whereEqualTo("login", login).get();
+		
+		QuerySnapshot querySnapshot = query.get();
+		
+		QueryDocumentSnapshot userDocument = querySnapshot.getDocuments().get(0);
+		
+		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
+        .update("password", user.getPassword());
+		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
+        .update("name", user.getName());
+		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
+        .update("mail", user.getMail());
+		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
+        .update("lastName", user.getLastName());
+		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
+        .update("birthDate", user.getBirthDate().toString());
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import gymapp.model.domain.User;
 import gymapp.view.panels.ExercisesPanel;
 import gymapp.view.panels.HistoryPanel;
 import gymapp.view.panels.LoginPanel;
+import gymapp.view.panels.ProfilePanel;
 import gymapp.view.panels.RegisterPanel;
 import gymapp.view.panels.WorkoutsPanel;
 
@@ -70,6 +71,12 @@ public class MainFrame extends JFrame {
 		panels.add(exercisesPanel);
 		contentPane.add(exercisesPanel);
 		exercisesPanel.setVisible(false);
+		
+		ProfilePanel profilePanel = new ProfilePanel(panels);
+		profilePanel.setBounds(0, 0, 1114, 599);
+		panels.add(profilePanel);
+		contentPane.add(profilePanel);
+		profilePanel.setVisible(false);
 
 	}
 
