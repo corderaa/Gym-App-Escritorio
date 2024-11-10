@@ -2,7 +2,9 @@ package gymapp.service;
 
 import java.util.List;
 import gymapp.model.domain.Exercise;
+import gymapp.model.domain.Workout;
 import gymapp.model.resource.ExerciseResource;
+import gymapp.utils.UserSession;
 
 public class ExerciseService implements ServiceInterface<Exercise> {
 	private ExerciseResource exerciseResource = null;

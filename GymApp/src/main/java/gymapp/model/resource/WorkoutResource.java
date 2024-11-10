@@ -44,8 +44,6 @@ public class WorkoutResource implements ResourceInterface<Workout> {
 		for (QueryDocumentSnapshot workoutDocumentSnapshot : workoutDocuments) {
 			Workout workout = new Workout();
 			workout.setName(workoutDocumentSnapshot.getString("name"));
-			// workout.setExercises((List<Exercise>)
-			// workoutDocumentSnapshot.get("exercises"));
 			List<DocumentReference> exercisesReference = (List<DocumentReference>) workoutDocumentSnapshot
 					.get("exercises");
 			workout.setId(workoutDocumentSnapshot.getId());
