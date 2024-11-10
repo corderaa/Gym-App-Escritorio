@@ -3,23 +3,20 @@ package gymapp.view.panels;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
-
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
 import gymapp.utils.Constants;
-
+import gymapp.utils.UserSession;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ExercisesPanel extends JPanel {
 
@@ -154,6 +151,23 @@ public class ExercisesPanel extends JPanel {
 			}
 		});
 
+		this.addComponentListener(new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+
+				try {
+					exercisesModel.setRowCount(0);
+					displaySelectedExerciseOnTable();
+					
+					//CAMBIAR
+					lblWorkoutsName.setText("mimimi");
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error");
+					System.out.println(e1.getMessage());
+				}
+
+			}
+		});
+
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -164,4 +178,15 @@ public class ExercisesPanel extends JPanel {
 		});
 
 	}
+
+	private void displaySelectedExerciseOnTable() throws Exception {
+
+		Object[] row = { UserSession.getInstance().getSelectedExecise().getName(),
+				UserSession.getInstance().getSelectedExecise().getSeries(),
+				UserSession.getInstance().getSelectedExecise().getDescription(),
+				UserSession.getInstance().getSelectedExecise().getRest() };
+
+		exercisesModel.addRow(row);
+	}
+
 }

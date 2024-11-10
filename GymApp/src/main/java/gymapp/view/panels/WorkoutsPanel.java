@@ -1,7 +1,6 @@
 package gymapp.view.panels;
 
 import java.awt.Font;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import gymapp.model.domain.Exercise;
 import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
 import gymapp.service.WorkoutService;
@@ -97,10 +97,12 @@ public class WorkoutsPanel extends JPanel {
 		};
 
 		tableExercises = new JTable(exerciseModel);
+		exerciseModel.addColumn("Id Del Ejercicio");
 		exerciseModel.addColumn("Nombre");
 		exerciseModel.addColumn("Series");
 		exerciseModel.addColumn("Descripcion");
 		exerciseModel.addColumn("Descanso");
+		// tableExercises.removeColumn(tableExercises.getColumn("Id Del Ejercicio"));
 		scrollPaneExercicesDetails.setViewportView(tableExercises);
 
 		JLabel lblUserLevel = new JLabel("Nivel usuario:");
@@ -161,7 +163,6 @@ public class WorkoutsPanel extends JPanel {
 						displayExerciseTable();
 					}
 				} catch (Exception e1) {
-					System.out.println(e1.getMessage());
 					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 				}
 
@@ -173,8 +174,15 @@ public class WorkoutsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				if (-1 != tableExercises.getSelectedRow()) {
+
+					Exercise selectedExerciseId = getSelectedExerciseId();
+
 					panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
 					panels.get(Constants.EXERCISES_PANEL_ID).setVisible(true);
+					getSelectedExerciseId();
+
+					UserSession.getInstance().setSelectedExecise(selectedExerciseId);
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Err, Selecciona un ejercicio porfavor");
 				}
@@ -228,7 +236,8 @@ public class WorkoutsPanel extends JPanel {
 		for (int i = 0; i < workoutList.size(); i++) {
 			if (workoutList.get(i) != null && workoutList.get(i).getId() == getSelectedWorkoutId()) {
 				for (int e = 0; e < workoutList.get(i).getExercises().size(); e++) {
-					Object[] row = { workoutList.get(i).getExercises().get(e).getName(),
+					Object[] row = { workoutList.get(i).getExercises().get(e).getId(),
+							workoutList.get(i).getExercises().get(e).getName(),
 							workoutList.get(i).getExercises().get(e).getSeries(),
 							workoutList.get(i).getExercises().get(e).getDescription(),
 							workoutList.get(i).getExercises().get(e).getRest() };
@@ -246,5 +255,23 @@ public class WorkoutsPanel extends JPanel {
 			ret = (String) workoutsModel.getValueAt(tableWorkouts.getSelectedRow(), 0);
 		return ret;
 	}
+
+	private Exercise getSelectedExerciseId() {
+		Exercise ret = null;
+
+		if (tableExercises.getRowCount() > 0)
+			for (int i = 0; i < workoutList.size(); i++) {
+				for (int e = 0; e < workoutList.get(i).getExercises().size(); e++) {
+
+					if (workoutList.get(i).getExercises().get(e).getId() == tableExercises
+							.getValueAt(tableExercises.getSelectedRow(), 0)) {
+						ret = workoutList.get(i).getExercises().get(e);
+					}
+
+				}
+			}
+		return ret;
+	}
+	
 
 }
