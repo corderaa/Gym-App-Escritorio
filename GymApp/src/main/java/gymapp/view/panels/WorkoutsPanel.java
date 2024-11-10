@@ -123,6 +123,13 @@ public class WorkoutsPanel extends JPanel {
 		btnHistory.setForeground(new Color(255, 255, 255));
 		btnHistory.setBounds(483, 432, 148, 39);
 		add(btnHistory);
+		
+		JButton btnProfile = new JButton("Perfil");
+		btnProfile.setFont(new Font("SansSerif", Font.PLAIN, 15));
+		btnProfile.setBackground(new Color(70, 145, 120));
+		btnProfile.setForeground(new Color(255, 255, 255));
+		btnProfile.setBounds(483, 502, 148, 39);
+		add(btnProfile);
 
 		JButton btnInicio = new JButton("Inicio");
 		btnInicio.setForeground(Color.WHITE);
@@ -141,6 +148,14 @@ public class WorkoutsPanel extends JPanel {
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panels.get(Constants.LOGIN_PANEL_ID).setVisible(true);
+				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
+				exerciseModel.setRowCount(0);
+			}
+		});
+		
+		btnProfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panels.get(Constants.PROFILE_PANEL_ID).setVisible(true);
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(false);
 				exerciseModel.setRowCount(0);
 			}
