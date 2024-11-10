@@ -13,6 +13,7 @@ import com.google.cloud.firestore.QuerySnapshot;
 
 import gymapp.model.Firebase;
 import gymapp.model.domain.User;
+import gymapp.utils.DateUtils;
 import gymapp.utils.UserSession;
 
 public class UserResource implements ResourceInterface<User> {
@@ -80,7 +81,7 @@ public class UserResource implements ResourceInterface<User> {
 		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
         .update("lastName", user.getLastName());
 		db.collection(gymapp.utils.Constants.USER_COLLECTION).document(userDocument.getId())
-        .update("birthDate", user.getBirthDate().toString());
+        .update("birthDate", DateUtils.dateToLong(user.getBirthDate()));
 	}
 
 	@Override

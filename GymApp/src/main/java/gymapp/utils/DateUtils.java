@@ -15,4 +15,17 @@ public class DateUtils {
 
 		return ret;
 	}
+	
+	public static String dateToString(Date date) throws ParseException {
+		String ret = null;
+		DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_FORMAT, Locale.US);
+		ret = dateFormat.format(date);
+		return ret;
+	}
+	
+	public static Long dateToLong(Date date) throws ParseException {
+		Long ret = null;
+		ret = date.getTime();
+		return ret;
+	}
 }

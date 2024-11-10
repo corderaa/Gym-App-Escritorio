@@ -42,9 +42,9 @@ public class Constants {
 	
 	public static final int PROFILE_PANEL_ID = 5;
 
-	public static final String USER_CLIENT_ROLE = "ROLE_USER";
+	public static final String USER_CLIENT_ROLE = "Cliente";
 
-	public static final String USER_TRAINER_ROLE = "ROLE_TRAINER";
+	public static final String USER_TRAINER_ROLE = "Entrenador";
 
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 

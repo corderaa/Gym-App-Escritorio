@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import gymapp.model.domain.User;
 import gymapp.service.UserService;
 import gymapp.utils.Constants;
+import gymapp.utils.DateUtils;
 import gymapp.utils.UserSession;
 
 public class ProfilePanel extends JPanel {
@@ -182,11 +183,12 @@ public class ProfilePanel extends JPanel {
 			public void componentShown(ComponentEvent e) {
 				try {
 					User userInfo = UserSession.getInstance().getUser();
+					String dateString = DateUtils.dateToString(userInfo.getBirthDate());
 					textLogin.setText(userInfo.getLogin());
 					textName.setText(userInfo.getName());
 					textLastName.setText(userInfo.getLastName());
 					textEmail.setText(userInfo.getMail());
-					textBirthDate.setText(userInfo.getBirthDate().toString());
+					textBirthDate.setText(dateString);
 					textPassword.setText(userInfo.getPassword());
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error, no hay workouts");

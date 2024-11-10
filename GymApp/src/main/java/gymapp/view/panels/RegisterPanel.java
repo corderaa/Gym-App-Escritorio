@@ -119,8 +119,8 @@ public class RegisterPanel extends JPanel {
 		textBirthDate.setBounds(10, 292, 313, 28);
 		scrollPanel.add(textBirthDate);
 
-		JLabel lblBirthDate = new JLabel("Fecha de nacimiento (YYYY/MM/DD)");
-		lblBirthDate.setBounds(10, 267, 120, 14);
+		JLabel lblBirthDate = new JLabel("Fecha de nacimiento (DD/MM/YYYY)");
+		lblBirthDate.setBounds(10, 267, 220, 14);
 		scrollPanel.add(lblBirthDate);
 
 		textPassword = new JTextField();
@@ -152,7 +152,7 @@ public class RegisterPanel extends JPanel {
 					} else
 						JOptionPane.showMessageDialog(null, "Error: Algun campo esta sin rellenar");
 				} catch (ParseException e1) {
-					JOptionPane.showMessageDialog(null, "Porfavor, comprueba si la fecha tiene el formato correcto");
+					JOptionPane.showMessageDialog(null, "Por favor, comprueba si la fecha tiene el formato correcto");
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
 				}
