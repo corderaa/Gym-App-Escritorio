@@ -102,7 +102,7 @@ public class WorkoutsPanel extends JPanel {
 		exerciseModel.addColumn("Series");
 		exerciseModel.addColumn("Descripcion");
 		exerciseModel.addColumn("Descanso");
-		// tableExercises.removeColumn(tableExercises.getColumn("Id Del Ejercicio"));
+		hideColumn();
 		scrollPaneExercicesDetails.setViewportView(tableExercises);
 
 		JLabel lblUserLevel = new JLabel("Nivel usuario:");
@@ -123,7 +123,7 @@ public class WorkoutsPanel extends JPanel {
 		btnHistory.setForeground(new Color(255, 255, 255));
 		btnHistory.setBounds(483, 432, 148, 39);
 		add(btnHistory);
-		
+
 		JButton btnProfile = new JButton("Perfil");
 		btnProfile.setFont(new Font("SansSerif", Font.PLAIN, 15));
 		btnProfile.setBackground(new Color(70, 145, 120));
@@ -152,7 +152,7 @@ public class WorkoutsPanel extends JPanel {
 				exerciseModel.setRowCount(0);
 			}
 		});
-		
+
 		btnProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panels.get(Constants.PROFILE_PANEL_ID).setVisible(true);
@@ -250,6 +250,9 @@ public class WorkoutsPanel extends JPanel {
 
 		for (int i = 0; i < workoutList.size(); i++) {
 			if (workoutList.get(i) != null && workoutList.get(i).getId() == getSelectedWorkoutId()) {
+				
+				UserSession.getInstance().setSelectedWorkout(workoutList.get(i));
+				
 				for (int e = 0; e < workoutList.get(i).getExercises().size(); e++) {
 					Object[] row = { workoutList.get(i).getExercises().get(e).getId(),
 							workoutList.get(i).getExercises().get(e).getName(),
@@ -287,6 +290,14 @@ public class WorkoutsPanel extends JPanel {
 			}
 		return ret;
 	}
-	
+
+	private void hideColumn() {
+		int idColumnIndex = exerciseModel.findColumn("Id Del Ejercicio");
+		if (idColumnIndex != -1) {
+			tableExercises.getColumnModel().getColumn(idColumnIndex).setMinWidth(0);
+			tableExercises.getColumnModel().getColumn(idColumnIndex).setMaxWidth(0);
+			tableExercises.getColumnModel().getColumn(idColumnIndex).setWidth(0);
+		}
+	}
 
 }

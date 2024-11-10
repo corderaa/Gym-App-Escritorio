@@ -157,12 +157,9 @@ public class ExercisesPanel extends JPanel {
 				try {
 					exercisesModel.setRowCount(0);
 					displaySelectedExerciseOnTable();
-					
-					//CAMBIAR
-					lblWorkoutsName.setText("mimimi");
+					lblWorkoutsName.setText(UserSession.getInstance().getSelectedWorkout().getName());
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error");
-					System.out.println(e1.getMessage());
 				}
 
 			}

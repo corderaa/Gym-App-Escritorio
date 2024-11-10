@@ -38,7 +38,7 @@ public class UserSession {
 		return selectedWorkout;
 	}
 
-	public void getSelectedWorkout(Workout selectedWorkout) {
+	public void setSelectedWorkout(Workout selectedWorkout) {
 		this.selectedWorkout = selectedWorkout;
 	}
 }
