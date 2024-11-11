@@ -2,21 +2,23 @@ package gymapp.utils.thread;
 
 import javax.swing.JLabel;
 
-public class Cronometer extends Thread{
+public class Cronometer extends Thread {
 	boolean isCountdown = false;
 	int init = 0;
+	boolean flag = false;
 	JLabel display = null;
-	
-	public Cronometer (boolean isCountdown, int init, JLabel display) {
+
+	public Cronometer(boolean isCountdown, int init, JLabel display) {
 		this.isCountdown = isCountdown;
 		this.init = init;
 		this.display = display;
+		this.flag = true;
 	}
-	
+
 	@Override
 	public void run() {
-		if(isCountdown) {
-			while(init>0) {
+		if (isCountdown) {
+			while (init > 0) {
 				try {
 					Thread.sleep(1000);
 					init--;
@@ -25,51 +27,59 @@ public class Cronometer extends Thread{
 					e.printStackTrace();
 				}
 			}
-		}else {
-			while(true) {
+		} else {
+			while (flag) {
 				try {
 					Thread.sleep(1000);
 					init++;
 					display.setText(timeToString(init));
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (InterruptedException ie) {
+					// ie.printStackTrace();
+					System.out.println(ie.getMessage());
+				} catch (Exception e) {
+					// e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 		}
-		
+
 	}
-	
-    public String timeToString(int i) {
-    	
-    	int hours = 0;
-    	int minutes = 0;
-    	int seconds = 0;
-    	
-    	String hoursString = null;
-    	String minutesString = null;
-    	String secondsString = null;
-    	String time = null;
-        
-    	hours = i/3600;
-        if(hours <10){
-            hoursString = "0" + hours;
-        }else{
-            hoursString = String.valueOf(hours);
-        }
-        minutes = (i/60)%60;
-        if(minutes <10){
-            minutesString = "0"+ minutes;
-        }else{
-            minutesString = String.valueOf(minutes);
-        }
-        seconds = i%60;
-        if(seconds <10){
-            secondsString = "0"+ seconds;
-        }else{
-            secondsString = String.valueOf(seconds);
-        }
-        time = hoursString +":"+ minutesString +":"+ secondsString;
-        
-        return time;
-    }
+
+	public String timeToString(int i) {
+
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+
+		String hoursString = null;
+		String minutesString = null;
+		String secondsString = null;
+		String time = null;
+
+		hours = i / 3600;
+		if (hours < 10) {
+			hoursString = "0" + hours;
+		} else {
+			hoursString = String.valueOf(hours);
+		}
+		minutes = (i / 60) % 60;
+		if (minutes < 10) {
+			minutesString = "0" + minutes;
+		} else {
+			minutesString = String.valueOf(minutes);
+		}
+		seconds = i % 60;
+		if (seconds < 10) {
+			secondsString = "0" + seconds;
+		} else {
+			secondsString = String.valueOf(seconds);
+		}
+		time = hoursString + ":" + minutesString + ":" + secondsString;
+
+		return time;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
 }

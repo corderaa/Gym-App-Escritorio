@@ -214,10 +214,8 @@ public class WorkoutsPanel extends JPanel {
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error, no hay workouts");
 				}
-
 			}
 		});
-
 	}
 
 	private void displayWorkoutsTable() throws Exception {
@@ -240,19 +238,17 @@ public class WorkoutsPanel extends JPanel {
 				} else {
 					JOptionPane.showMessageDialog(null, "Err, No hay ejercicios");
 				}
-
 			}
 		}
-
 	}
 
 	private void displayExerciseTable() throws Exception {
 
 		for (int i = 0; i < workoutList.size(); i++) {
 			if (workoutList.get(i) != null && workoutList.get(i).getId() == getSelectedWorkoutId()) {
-				
+
 				UserSession.getInstance().setSelectedWorkout(workoutList.get(i));
-				
+
 				for (int e = 0; e < workoutList.get(i).getExercises().size(); e++) {
 					Object[] row = { workoutList.get(i).getExercises().get(e).getId(),
 							workoutList.get(i).getExercises().get(e).getName(),
@@ -262,7 +258,6 @@ public class WorkoutsPanel extends JPanel {
 
 					exerciseModel.addRow(row);
 				}
-
 			}
 		}
 	}

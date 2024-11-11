@@ -12,6 +12,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
+import gymapp.utils.thread.Cronometer;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -23,8 +25,11 @@ public class ExercisesPanel extends JPanel {
 	private JTable tableExercises;
 	private DefaultTableModel exercisesModel;
 	private JScrollPane scrollPaneeExercises;
+	private JLabel lblTimerExercise;
+	private Cronometer workoutThread;
+	private Cronometer exerciseThread;
 	private static final long serialVersionUID = 1L;
-	boolean prueba = false;
+	boolean isWorkingOut = false;
 
 	/**
 	 * Create the panel.
@@ -68,8 +73,7 @@ public class ExercisesPanel extends JPanel {
 		lblWorkout.setForeground(new Color(70, 145, 120));
 		add(lblWorkout);
 
-		JButton btnStop = new JButton("PARAR");
-
+		JButton btnStop = new JButton("INICIAR");
 		btnStop.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnStop.setForeground(new Color(255, 255, 255));
 		btnStop.setBounds(359, 452, 147, 84);
@@ -91,23 +95,23 @@ public class ExercisesPanel extends JPanel {
 		btnReturn.setBounds(901, 45, 148, 39);
 		add(btnReturn);
 
-		JLabel lblNewLabel_1_2 = new JLabel("00.00.00");
-		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1_2.setBounds(116, 205, 133, 31);
-		add(lblNewLabel_1_2);
+		JLabel lblTimerWorkout = new JLabel("00.00.00");
+		lblTimerWorkout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimerWorkout.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTimerWorkout.setBounds(116, 205, 133, 31);
+		add(lblTimerWorkout);
 
-		JLabel lblNewLabel_1_2_1 = new JLabel("00.00.00");
-		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1_2_1.setBounds(365, 204, 133, 31);
-		add(lblNewLabel_1_2_1);
+		JLabel lblTimerSeries = new JLabel("00.00.00");
+		lblTimerSeries.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimerSeries.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTimerSeries.setBounds(365, 204, 133, 31);
+		add(lblTimerSeries);
 
-		JLabel lblNewLabel_1_2_2 = new JLabel("00.00.00");
-		lblNewLabel_1_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1_2_2.setBounds(614, 205, 133, 31);
-		add(lblNewLabel_1_2_2);
+		lblTimerExercise = new JLabel("00.00.00");
+		lblTimerExercise.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimerExercise.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTimerExercise.setBounds(614, 205, 133, 31);
+		add(lblTimerExercise);
 
 		JLabel lblSeries = new JLabel("SERIES");
 		lblSeries.setHorizontalAlignment(SwingConstants.CENTER);
@@ -130,22 +134,32 @@ public class ExercisesPanel extends JPanel {
 		lblDescanso.setBounds(863, 163, 133, 25);
 		add(lblDescanso);
 
-		JLabel lblNewLabel_1_2_2_1 = new JLabel("00.00.00");
-		lblNewLabel_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblNewLabel_1_2_2_1.setBounds(863, 205, 133, 31);
-		add(lblNewLabel_1_2_2_1);
+		JLabel lblTimerRest = new JLabel("00.00.00");
+		lblTimerRest.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimerRest.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTimerRest.setBounds(863, 205, 133, 31);
+		add(lblTimerRest);
+
+		workoutThread = new Cronometer(false, 0, lblTimerWorkout);
+		exerciseThread = new Cronometer(false, 0, lblTimerExercise);
 
 		btnStop.addActionListener(new ActionListener() {
+			@SuppressWarnings("removal")
 			public void actionPerformed(ActionEvent e) {
 
-				if (prueba) {
-					btnStop.setText("PARAR");
-					prueba = false;
+				if (isWorkingOut) {
 
-				} else {
 					btnStop.setText("INICIAR");
-					prueba = true;
+					exerciseThread.setFlag(false);
+					isWorkingOut = false;
+				} else {
+					btnStop.setText("PARAR");
+					isWorkingOut = true;
+					if (exerciseThread.isAlive()) {
+						exerciseThread.stop();
+					}
+					exerciseThread = new Cronometer(false, 0, lblTimerExercise);
+					exerciseThread.start();
 				}
 
 			}
