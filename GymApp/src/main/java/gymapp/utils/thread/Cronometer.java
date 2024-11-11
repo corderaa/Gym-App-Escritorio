@@ -16,7 +16,7 @@ public class Cronometer extends Thread{
 	@Override
 	public void run() {
 		if(isCountdown) {
-			while(true) {
+			while(init>0) {
 				try {
 					Thread.sleep(1000);
 					init--;
