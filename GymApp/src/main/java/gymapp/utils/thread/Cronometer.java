@@ -24,6 +24,7 @@ public class Cronometer extends Thread {
 					init--;
 					display.setText(timeToString(init));
 				} catch (InterruptedException e) {
+					flag = false;
 					e.printStackTrace();
 				}
 			}
@@ -34,6 +35,7 @@ public class Cronometer extends Thread {
 					init++;
 					display.setText(timeToString(init));
 				} catch (InterruptedException ie) {
+					flag = false;
 					// ie.printStackTrace();
 					System.out.println(ie.getMessage());
 				} catch (Exception e) {

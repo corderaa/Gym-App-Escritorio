@@ -26,6 +26,7 @@ public class ExercisesPanel extends JPanel {
 	private DefaultTableModel exercisesModel;
 	private JScrollPane scrollPaneeExercises;
 	private JLabel lblTimerExercise;
+	private JLabel lblTimerWorkout;
 	private Cronometer workoutThread;
 	private Cronometer exerciseThread;
 	private static final long serialVersionUID = 1L;
@@ -95,7 +96,7 @@ public class ExercisesPanel extends JPanel {
 		btnReturn.setBounds(901, 45, 148, 39);
 		add(btnReturn);
 
-		JLabel lblTimerWorkout = new JLabel("00.00.00");
+		lblTimerWorkout = new JLabel("00.00.00");
 		lblTimerWorkout.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimerWorkout.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblTimerWorkout.setBounds(116, 205, 133, 31);
@@ -151,15 +152,19 @@ public class ExercisesPanel extends JPanel {
 
 					btnStop.setText("INICIAR");
 					exerciseThread.setFlag(false);
+					workoutThread.setFlag(false);
 					isWorkingOut = false;
 				} else {
 					btnStop.setText("PARAR");
 					isWorkingOut = true;
-					if (exerciseThread.isAlive()) {
+					if (workoutThread.isAlive() && exerciseThread.isAlive()) {
 						exerciseThread.stop();
+						workoutThread.stop();
 					}
 					exerciseThread = new Cronometer(false, 0, lblTimerExercise);
+					workoutThread = new Cronometer(false, 0, lblTimerWorkout);
 					exerciseThread.start();
+					workoutThread.start();
 				}
 
 			}
@@ -181,6 +186,13 @@ public class ExercisesPanel extends JPanel {
 
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (workoutThread.isAlive() && exerciseThread.isAlive()) {
+					exerciseThread.interrupt();
+					workoutThread.interrupt();
+				}
+				lblTimerExercise.setText("00.00.00");
+				lblTimerWorkout.setText("00.00.00");
+				exercisesModel.setRowCount(0);
 
 				panels.get(Constants.EXERCISES_PANEL_ID).setVisible(false);
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(true);

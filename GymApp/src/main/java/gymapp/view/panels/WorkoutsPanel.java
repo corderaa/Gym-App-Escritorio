@@ -197,6 +197,7 @@ public class WorkoutsPanel extends JPanel {
 					getSelectedExerciseId();
 
 					UserSession.getInstance().setSelectedExecise(selectedExerciseId);
+					exerciseModel.setRowCount(0);
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Err, Selecciona un ejercicio porfavor");
