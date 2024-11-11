@@ -29,18 +29,20 @@ public class Cronometer extends Thread {
 				}
 			}
 		} else {
-			while (flag) {
+			while (true) {
 				try {
-					Thread.sleep(1000);
-					init++;
-					display.setText(timeToString(init));
+					while (flag) {
+						Thread.sleep(1000);
+						init++;
+						display.setText(timeToString(init));
+					}
+					Thread.sleep(100);
 				} catch (InterruptedException ie) {
 					flag = false;
-					// ie.printStackTrace();
-					System.out.println(ie.getMessage());
+					ie.printStackTrace();
+					break;
 				} catch (Exception e) {
-					// e.printStackTrace();
-					System.out.println(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		}

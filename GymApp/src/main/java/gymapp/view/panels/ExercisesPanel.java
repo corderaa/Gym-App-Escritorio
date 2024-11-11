@@ -31,6 +31,7 @@ public class ExercisesPanel extends JPanel {
 	private Cronometer exerciseThread;
 	private static final long serialVersionUID = 1L;
 	boolean isWorkingOut = false;
+	boolean isStarted = false;
 
 	/**
 	 * Create the panel.
@@ -151,12 +152,15 @@ public class ExercisesPanel extends JPanel {
 				if (isWorkingOut) {
 
 					btnStop.setText("INICIAR");
+
 					exerciseThread.setFlag(false);
 					workoutThread.setFlag(false);
 					isWorkingOut = false;
 				} else {
 					btnStop.setText("PARAR");
+					btnPause.setText("PAUSAR");
 					isWorkingOut = true;
+					isStarted = true;
 					if (workoutThread.isAlive() && exerciseThread.isAlive()) {
 						exerciseThread.stop();
 						workoutThread.stop();
@@ -167,6 +171,28 @@ public class ExercisesPanel extends JPanel {
 					workoutThread.start();
 				}
 
+			}
+		});
+
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!isStarted) {
+					JOptionPane.showMessageDialog(null, "Inicia el cronometro");
+				}
+				if (isWorkingOut) {
+					btnPause.setText("REANUDAR");
+					btnStop.setText("INICIAR");
+					exerciseThread.setFlag(false);
+					workoutThread.setFlag(false);
+					isWorkingOut = false;
+				} else {
+					btnPause.setText("PAUSAR");
+					btnStop.setText("PARAR");
+					exerciseThread.setFlag(true);
+					workoutThread.setFlag(true);
+					isWorkingOut = true;
+				}
 			}
 		});
 
@@ -186,6 +212,7 @@ public class ExercisesPanel extends JPanel {
 
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				if (workoutThread.isAlive() && exerciseThread.isAlive()) {
 					exerciseThread.interrupt();
 					workoutThread.interrupt();
