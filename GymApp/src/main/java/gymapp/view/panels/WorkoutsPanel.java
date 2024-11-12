@@ -13,6 +13,7 @@ import gymapp.model.domain.Exercise;
 import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
 import gymapp.service.WorkoutService;
+import gymapp.utils.Backup;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 import java.awt.Color;
@@ -222,7 +223,11 @@ public class WorkoutsPanel extends JPanel {
 	private void displayWorkoutsTable() throws Exception {
 
 		WorkoutService workoutService = new WorkoutService();
-		workoutList = workoutService.getfilteredWorkouts();
+		try {
+			workoutList = workoutService.getfilteredWorkouts(workoutService.findAll());
+		} catch (Exception e) {
+			workoutList = workoutService.getfilteredWorkouts(Backup.getInstance().getWorkouts());
+		}
 
 		if (workoutList == null || workoutList.isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Err, No hay Workouts");

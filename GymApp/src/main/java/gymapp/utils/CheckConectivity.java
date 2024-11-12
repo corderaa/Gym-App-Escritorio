@@ -10,6 +10,5 @@ public class CheckConectivity {
 		URL url = new URL("http://www.google.com");
 		URLConnection connection = url.openConnection();
 		connection.connect();
-		System.out.println("Internet is connected");
 	}
 }

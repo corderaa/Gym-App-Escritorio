@@ -10,7 +10,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import gymapp.model.domain.User;
+import gymapp.service.ExerciseService;
 import gymapp.service.UserService;
+import gymapp.service.WorkoutService;
+import gymapp.utils.Backup;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 
@@ -26,6 +29,7 @@ public class LoginPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private UserService userService = null;
+	private WorkoutService workoutService = null;
 	private JTextField textUserName;
 	private JTextField textPassword;
 
@@ -92,6 +96,7 @@ public class LoginPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					userService = new UserService();
+					workoutService = new WorkoutService();
 					User user = new User();
 					user.setLogin(textUserName.getText());
 					user.setPassword(textPassword.getText());
@@ -99,6 +104,9 @@ public class LoginPanel extends JPanel {
 					if (userService.checkCredentials(user)) {
 
 						UserSession.getInstance().setUser(userService.find(user));
+						Backup.getInstance().setUser(userService.find(user));
+						Backup.getInstance().backupWorkouts(workoutService.findAll());
+
 						changePanel(Constants.WORKOUTS_PANEL_ID, panels);
 						JOptionPane.showMessageDialog(null, "is correct"); // TODO: BORRAR PARA CAMBIAR DE PANEL
 

@@ -9,7 +9,6 @@ import gymapp.utils.Constants;
 public class ReadProcess {
 
 	public static void main(String args[]) {
-		int index = 0;
 		try {
 			ObjectInputStream objectInputStream = new ObjectInputStream(
 					new FileInputStream(new File(Constants.EXERCISE_BACKUP_FILE_NAME)));

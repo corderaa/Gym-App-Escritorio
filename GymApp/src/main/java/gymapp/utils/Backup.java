@@ -47,7 +47,8 @@ public class Backup {
 	}
 
 	public void setExercises() throws IOException, ClassNotFoundException {
-		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c", Constants.READ_BACKUP_COMMAND);
+		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c",
+				Constants.READ_BACKUP_EXERCISES_COMMAND);
 		Process process = processBuilder.start();
 
 		ObjectInputStream objectInputStream = new ObjectInputStream(process.getInputStream());
@@ -58,7 +59,8 @@ public class Backup {
 	}
 
 	public void setWorkouts() throws IOException, ClassNotFoundException {
-		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c", Constants.READ_BACKUP_COMMAND);
+		ProcessBuilder processBuilder = new ProcessBuilder(Constants.PROCESS_NAME, "/c",
+				Constants.READ_BACKUP_WORKOUTS_COMMAND);
 		Process process = processBuilder.start();
 
 		ObjectInputStream objectInputStream = new ObjectInputStream(process.getInputStream());

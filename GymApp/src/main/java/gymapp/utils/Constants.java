@@ -48,9 +48,13 @@ public class Constants {
 
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 
-	public static final String LOAD_BACKUP_COMMAND = "";
+	public static final String LOAD_BACKUP_EXERCISES_COMMAND = "";
 
-	public static final String READ_BACKUP_COMMAND = "";
+	public static final String LOAD_BACKUP_WORKOUTS_COMMAND = "";
+
+	public static final String READ_BACKUP_WORKOUTS_COMMAND = "";
+
+	public static final String READ_BACKUP_EXERCISES_COMMAND = "";
 
 	public static final String PROCESS_NAME= "CMD";
 	

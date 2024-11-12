@@ -43,9 +43,8 @@ public class WorkoutService implements ServiceInterface<Workout> {
 
 	}
 
-	public List<Workout> getfilteredWorkouts() throws Exception {
-		List<Workout> ret = null;
-		ret = findAll();
+	public List<Workout> getfilteredWorkouts(List<Workout> workouts) throws Exception {
+		List<Workout> ret = workouts;
 		ret.removeIf((workout -> !(workout.getLevel() <= UserSession.getInstance().getUser().getLevel())));
 
 		return ret;
