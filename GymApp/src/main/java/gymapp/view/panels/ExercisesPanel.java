@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import gymapp.model.domain.Exercise;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 import gymapp.utils.thread.Cronometer;
@@ -32,6 +34,7 @@ public class ExercisesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	boolean isWorkingOut = false;
 	boolean isStarted = false;
+	private int currentExercise = 0;
 
 	/**
 	 * Create the panel.
@@ -78,14 +81,14 @@ public class ExercisesPanel extends JPanel {
 		JButton btnStop = new JButton("INICIAR");
 		btnStop.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnStop.setForeground(new Color(255, 255, 255));
-		btnStop.setBounds(359, 452, 147, 84);
+		btnStop.setBounds(105, 452, 147, 84);
 		btnStop.setBackground(new Color(70, 145, 120));
 		add(btnStop);
 
 		JButton btnPause = new JButton("PAUSAR");
 		btnPause.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnPause.setForeground(new Color(255, 255, 255));
-		btnPause.setBounds(615, 452, 147, 84);
+		btnPause.setBounds(357, 452, 147, 84);
 		btnPause.setBackground(new Color(70, 145, 120));
 		add(btnPause);
 
@@ -145,6 +148,20 @@ public class ExercisesPanel extends JPanel {
 		workoutThread = new Cronometer(false, 0, lblTimerWorkout);
 		exerciseThread = new Cronometer(false, 0, lblTimerExercise);
 
+		JButton btnNext = new JButton("SIGUIENTE");
+		btnNext.setForeground(Color.WHITE);
+		btnNext.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnNext.setBackground(new Color(70, 145, 120));
+		btnNext.setBounds(861, 452, 147, 84);
+		add(btnNext);
+
+		JButton btnStartSerie = new JButton("SERIE");
+		btnStartSerie.setForeground(Color.WHITE);
+		btnStartSerie.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnStartSerie.setBackground(new Color(70, 145, 120));
+		btnStartSerie.setBounds(609, 452, 147, 84);
+		add(btnStartSerie);
+
 		btnStop.addActionListener(new ActionListener() {
 			@SuppressWarnings("removal")
 			public void actionPerformed(ActionEvent e) {
@@ -201,7 +218,8 @@ public class ExercisesPanel extends JPanel {
 
 				try {
 					exercisesModel.setRowCount(0);
-					displaySelectedExerciseOnTable();
+					currentExercise = UserSession.getInstance().getSelectedExerciseId();
+					displaySelectedExerciseOnTable(currentExercise);
 					lblWorkoutsName.setText(UserSession.getInstance().getSelectedWorkout().getName());
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error");
@@ -227,16 +245,39 @@ public class ExercisesPanel extends JPanel {
 			}
 		});
 
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				currentExercise++;
+				if (currentExercise < UserSession.getInstance().getSelectedWorkout().getExercises().size()) {
+					try {
+						displaySelectedExerciseOnTable(currentExercise);
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No hay mas ejercicios");
+				}
+
+			}
+		});
+
+		btnStartSerie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
 	}
 
-	private void displaySelectedExerciseOnTable() throws Exception {
+	private void displaySelectedExerciseOnTable(int exerciseSelected) throws Exception {
 
-		Object[] row = { UserSession.getInstance().getSelectedExecise().getName(),
-				UserSession.getInstance().getSelectedExecise().getSeries(),
-				UserSession.getInstance().getSelectedExecise().getDescription(),
-				UserSession.getInstance().getSelectedExecise().getRest() };
+		Exercise selectedExercise = UserSession.getInstance().getSelectedWorkout().getExercises().get(exerciseSelected);
+
+		Object[] row = { selectedExercise.getName(), selectedExercise.getSeries(), selectedExercise.getDescription(),
+				selectedExercise.getRest() };
 
 		exercisesModel.addRow(row);
 	}
-
 }

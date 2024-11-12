@@ -11,6 +11,7 @@ public class UserSession {
 	private User user = null;
 	private Exercise selectedExercise = null;
 	private Workout selectedWorkout = null;
+	private int selectedExerciseId = 0;
 
 	public static UserSession getInstance() {
 		if (instance == null) {
@@ -41,4 +42,13 @@ public class UserSession {
 	public void setSelectedWorkout(Workout selectedWorkout) {
 		this.selectedWorkout = selectedWorkout;
 	}
+
+	public int getSelectedExerciseId() {
+		return selectedExerciseId;
+	}
+
+	public void setSelectedExerciseId(int selectedExerciseId) {
+		this.selectedExerciseId = selectedExerciseId;
+	}
+	
 }
