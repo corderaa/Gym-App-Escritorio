@@ -81,13 +81,7 @@ public class LoginPanel extends JPanel {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(389, 486, 352, 14);
 		add(lblNewLabel);
-
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Recuerdame");
-		chckbxNewCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		chckbxNewCheckBox.setForeground(new Color(58, 126, 98));
-		chckbxNewCheckBox.setBounds(389, 387, 97, 23);
-		add(chckbxNewCheckBox);
-
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
