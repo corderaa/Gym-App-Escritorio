@@ -31,6 +31,7 @@ public class ExercisesPanel extends JPanel {
 	private JLabel lblTimerWorkout;
 	private Cronometer workoutThread;
 	private Cronometer exerciseThread;
+	private Cronometer serieThread;
 	private Cronometer countDown;
 	private static final long serialVersionUID = 1L;
 	boolean isWorkingOut = false;
@@ -40,6 +41,7 @@ public class ExercisesPanel extends JPanel {
 	private JLabel lblWorkoutText;
 	private JLabel lblCountDown;
 	private JLabel lblCountDownText;
+	private JLabel lblTimerSeries;
 
 	/**
 	 * Create the panel.
@@ -111,7 +113,7 @@ public class ExercisesPanel extends JPanel {
 		lblTimerWorkout.setBounds(116, 205, 133, 31);
 		add(lblTimerWorkout);
 
-		JLabel lblTimerSeries = new JLabel("00.00.00");
+		lblTimerSeries = new JLabel("00.00.00");
 		lblTimerSeries.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimerSeries.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblTimerSeries.setBounds(365, 204, 133, 31);
@@ -181,6 +183,7 @@ public class ExercisesPanel extends JPanel {
 
 		workoutThread = new Cronometer(false, 0, lblTimerWorkout, null, null);
 		exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
+		serieThread = new Cronometer(isCountdownStarted, -5, lblTimerSeries, null, null);
 		countDown = new Cronometer(true, 5, lblCountDown, lblCountDownText, "CountDown");
 
 		btnStop.addActionListener(new ActionListener() {
@@ -206,6 +209,7 @@ public class ExercisesPanel extends JPanel {
 					workoutThread = new Cronometer(false, 0, lblTimerWorkout, null, null);
 					exerciseThread.start();
 					workoutThread.start();
+					isCountdownStarted = !isCountdownStarted;
 				}
 
 			}
@@ -222,6 +226,7 @@ public class ExercisesPanel extends JPanel {
 					btnStop.setText("INICIAR");
 					exerciseThread.setFlag(false);
 					workoutThread.setFlag(false);
+					serieThread.setFlag(false);
 					isWorkingOut = false;
 				} else {
 					btnPause.setText("PAUSAR");
@@ -229,6 +234,7 @@ public class ExercisesPanel extends JPanel {
 					exerciseThread.setFlag(true);
 					workoutThread.setFlag(true);
 					isWorkingOut = true;
+					serieThread.setFlag(true);
 				}
 			}
 		});
@@ -286,12 +292,12 @@ public class ExercisesPanel extends JPanel {
 
 		btnStartSerie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!isCountdownStarted) {
+				if (isCountdownStarted) {
 					countDown.start();
-
 					lblCountDownText.setVisible(true);
 					lblCountDown.setVisible(true);
 					isCountdownStarted = !isCountdownStarted;
+					serieThread.start();
 				}
 			}
 		});

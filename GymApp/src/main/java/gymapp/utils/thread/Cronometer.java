@@ -48,6 +48,7 @@ public class Cronometer extends Thread {
 					while (flag) {
 						Thread.sleep(1000);
 						init++;
+						if(init >= 0)
 						display.setText(timeToString(init));
 					}
 					Thread.sleep(100);
