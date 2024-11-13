@@ -163,7 +163,6 @@ public class ExercisesPanel extends JPanel {
 		add(btnStartSerie);
 
 		btnStop.addActionListener(new ActionListener() {
-			@SuppressWarnings("removal")
 			public void actionPerformed(ActionEvent e) {
 
 				if (isWorkingOut) {
@@ -179,8 +178,8 @@ public class ExercisesPanel extends JPanel {
 					isWorkingOut = true;
 					isStarted = true;
 					if (workoutThread.isAlive() && exerciseThread.isAlive()) {
-						exerciseThread.stop();
-						workoutThread.stop();
+						exerciseThread.interrupt();
+						workoutThread.interrupt();
 					}
 					exerciseThread = new Cronometer(false, 0, lblTimerExercise);
 					workoutThread = new Cronometer(false, 0, lblTimerWorkout);
@@ -251,6 +250,7 @@ public class ExercisesPanel extends JPanel {
 				currentExercise++;
 				if (currentExercise < UserSession.getInstance().getSelectedWorkout().getExercises().size()) {
 					try {
+						exercisesModel.setRowCount(0);
 						displaySelectedExerciseOnTable(currentExercise);
 
 					} catch (Exception e1) {

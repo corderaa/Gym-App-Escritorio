@@ -29,7 +29,7 @@ public class Cronometer extends Thread {
 				}
 			}
 		} else {
-			while (true) {
+			while (true)
 				try {
 					while (flag) {
 						Thread.sleep(1000);
@@ -39,14 +39,9 @@ public class Cronometer extends Thread {
 					Thread.sleep(100);
 				} catch (InterruptedException ie) {
 					flag = false;
-					ie.printStackTrace();
 					break;
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-			}
 		}
-
 	}
 
 	public String timeToString(int i) {
