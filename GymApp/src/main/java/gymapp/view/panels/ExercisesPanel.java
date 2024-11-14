@@ -195,15 +195,18 @@ public class ExercisesPanel extends JPanel {
 
 					exerciseThread.setFlag(false);
 					workoutThread.setFlag(false);
+					serieThread.setFlag(false);
 					isWorkingOut = false;
 				} else {
 					btnStop.setText("PARAR");
 					btnPause.setText("PAUSAR");
 					isWorkingOut = true;
 					isStarted = true;
-					if (workoutThread.isAlive() && exerciseThread.isAlive()) {
+					lblTimerSeries.setText("00.00.00");
+					if (workoutThread.isAlive() && exerciseThread.isAlive() && serieThread.isAlive()) {
 						exerciseThread.interrupt();
 						workoutThread.interrupt();
+						serieThread.interrupt();
 					}
 					exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
 					workoutThread = new Cronometer(false, 0, lblTimerWorkout, null, null);
@@ -257,13 +260,14 @@ public class ExercisesPanel extends JPanel {
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (workoutThread.isAlive() && exerciseThread.isAlive()) {
+				if (workoutThread.isAlive() && exerciseThread.isAlive() && serieThread.isAlive()) {
 					exerciseThread.interrupt();
 					workoutThread.interrupt();
+					serieThread.interrupt();
 				}
 				lblTimerExercise.setText("00.00.00");
 				lblTimerWorkout.setText("00.00.00");
-				exercisesModel.setRowCount(0);
+				lblTimerSeries.setText("00.00.00");
 
 				panels.get(Constants.EXERCISES_PANEL_ID).setVisible(false);
 				panels.get(Constants.WORKOUTS_PANEL_ID).setVisible(true);
@@ -283,6 +287,14 @@ public class ExercisesPanel extends JPanel {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
+					exerciseThread.interrupt();
+					serieThread.interrupt();
+					countDown.interrupt();
+					lblTimerExercise.setText("00.00.00");
+					lblTimerSeries.setText("00.00.00");
+					exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
+					exerciseThread.start();
+					isCountdownStarted = true;
 				} else {
 					JOptionPane.showMessageDialog(null, "No hay mas ejercicios");
 				}
@@ -293,10 +305,12 @@ public class ExercisesPanel extends JPanel {
 		btnStartSerie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (isCountdownStarted) {
+					countDown = new Cronometer(true, 5, lblCountDown, lblCountDownText, "CountDown");
 					countDown.start();
 					lblCountDownText.setVisible(true);
 					lblCountDown.setVisible(true);
 					isCountdownStarted = !isCountdownStarted;
+					serieThread = new Cronometer(isCountdownStarted, -5, lblTimerSeries, null, null);
 					serieThread.start();
 				}
 			}
