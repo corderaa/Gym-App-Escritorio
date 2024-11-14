@@ -3,16 +3,20 @@ package gymapp.utils.thread;
 import javax.swing.JLabel;
 
 public class Cronometer extends Thread {
+	String name = null;
+	JLabel title = null;
 	boolean isCountdown = false;
 	int init = 0;
 	boolean flag = false;
 	JLabel display = null;
 
-	public Cronometer(boolean isCountdown, int init, JLabel display) {
+	public Cronometer(boolean isCountdown, int init, JLabel display, JLabel title, String name) {
 		this.isCountdown = isCountdown;
 		this.init = init;
 		this.display = display;
 		this.flag = true;
+		this.title = title;
+		this.name = name;
 	}
 
 	@Override
@@ -28,25 +32,31 @@ public class Cronometer extends Thread {
 					e.printStackTrace();
 				}
 			}
+			if (this.name.equals("CountDown")) {
+				try {
+					Thread.sleep(1000);
+					this.title.setVisible(false);
+					this.display.setVisible(false);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
 		} else {
-			while (true) {
+			while (true)
 				try {
 					while (flag) {
 						Thread.sleep(1000);
 						init++;
+						if(init >= 0)
 						display.setText(timeToString(init));
 					}
 					Thread.sleep(100);
 				} catch (InterruptedException ie) {
 					flag = false;
-					ie.printStackTrace();
 					break;
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-			}
 		}
-
 	}
 
 	public String timeToString(int i) {

@@ -276,6 +276,7 @@ public class WorkoutsPanel extends JPanel {
 	}
 
 	private Exercise getSelectedExerciseId() {
+
 		Exercise ret = null;
 
 		if (tableExercises.getRowCount() > 0)
@@ -285,6 +286,7 @@ public class WorkoutsPanel extends JPanel {
 					if (workoutList.get(i).getExercises().get(e).getId() == tableExercises
 							.getValueAt(tableExercises.getSelectedRow(), 0)) {
 						ret = workoutList.get(i).getExercises().get(e);
+						UserSession.getInstance().setSelectedExerciseId(e);
 					}
 
 				}
@@ -293,6 +295,7 @@ public class WorkoutsPanel extends JPanel {
 	}
 
 	private void hideColumn() {
+		
 		int idColumnIndex = exerciseModel.findColumn("Id Del Ejercicio");
 		if (idColumnIndex != -1) {
 			tableExercises.getColumnModel().getColumn(idColumnIndex).setMinWidth(0);

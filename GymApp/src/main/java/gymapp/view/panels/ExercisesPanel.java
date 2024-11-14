@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import gymapp.model.domain.Exercise;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 import gymapp.utils.thread.Cronometer;
@@ -29,9 +31,17 @@ public class ExercisesPanel extends JPanel {
 	private JLabel lblTimerWorkout;
 	private Cronometer workoutThread;
 	private Cronometer exerciseThread;
+	private Cronometer serieThread;
+	private Cronometer countDown;
 	private static final long serialVersionUID = 1L;
 	boolean isWorkingOut = false;
 	boolean isStarted = false;
+	boolean isCountdownStarted = false;
+	private int currentExercise = 0;
+	private JLabel lblWorkoutText;
+	private JLabel lblCountDown;
+	private JLabel lblCountDownText;
+	private JLabel lblTimerSeries;
 
 	/**
 	 * Create the panel.
@@ -42,12 +52,12 @@ public class ExercisesPanel extends JPanel {
 		this.setBounds(0, 0, 1114, 599);
 		setLayout(null);
 
-		JLabel lblWorkoutsName = new JLabel("WORKOUTS");
-		lblWorkoutsName.setForeground(new Color(70, 145, 120));
-		lblWorkoutsName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWorkoutsName.setFont(new Font("SansSerif", Font.BOLD, 39));
-		lblWorkoutsName.setBounds(172, 45, 769, 85);
-		add(lblWorkoutsName);
+		lblWorkoutText = new JLabel("WORKOUTS");
+		lblWorkoutText.setForeground(new Color(70, 145, 120));
+		lblWorkoutText.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWorkoutText.setFont(new Font("SansSerif", Font.BOLD, 39));
+		lblWorkoutText.setBounds(172, 45, 769, 85);
+		add(lblWorkoutText);
 
 		scrollPaneeExercises = new JScrollPane();
 		scrollPaneeExercises.setBounds(68, 264, 981, 158);
@@ -78,14 +88,14 @@ public class ExercisesPanel extends JPanel {
 		JButton btnStop = new JButton("INICIAR");
 		btnStop.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnStop.setForeground(new Color(255, 255, 255));
-		btnStop.setBounds(359, 452, 147, 84);
+		btnStop.setBounds(105, 452, 147, 84);
 		btnStop.setBackground(new Color(70, 145, 120));
 		add(btnStop);
 
 		JButton btnPause = new JButton("PAUSAR");
 		btnPause.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnPause.setForeground(new Color(255, 255, 255));
-		btnPause.setBounds(615, 452, 147, 84);
+		btnPause.setBounds(357, 452, 147, 84);
 		btnPause.setBackground(new Color(70, 145, 120));
 		add(btnPause);
 
@@ -103,7 +113,7 @@ public class ExercisesPanel extends JPanel {
 		lblTimerWorkout.setBounds(116, 205, 133, 31);
 		add(lblTimerWorkout);
 
-		JLabel lblTimerSeries = new JLabel("00.00.00");
+		lblTimerSeries = new JLabel("00.00.00");
 		lblTimerSeries.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimerSeries.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		lblTimerSeries.setBounds(365, 204, 133, 31);
@@ -142,11 +152,41 @@ public class ExercisesPanel extends JPanel {
 		lblTimerRest.setBounds(863, 205, 133, 31);
 		add(lblTimerRest);
 
-		workoutThread = new Cronometer(false, 0, lblTimerWorkout);
-		exerciseThread = new Cronometer(false, 0, lblTimerExercise);
+		JButton btnNext = new JButton("SIGUIENTE");
+		btnNext.setForeground(Color.WHITE);
+		btnNext.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnNext.setBackground(new Color(70, 145, 120));
+		btnNext.setBounds(861, 452, 147, 84);
+		add(btnNext);
+
+		JButton btnStartSerie = new JButton("SERIE");
+		btnStartSerie.setForeground(Color.WHITE);
+		btnStartSerie.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnStartSerie.setBackground(new Color(70, 145, 120));
+		btnStartSerie.setBounds(609, 452, 147, 84);
+		add(btnStartSerie);
+
+		lblCountDownText = new JLabel("INICIAR EN");
+		lblCountDownText.setVisible(false);
+		lblCountDownText.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCountDownText.setForeground(new Color(70, 145, 120));
+		lblCountDownText.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblCountDownText.setBounds(116, 45, 133, 25);
+		add(lblCountDownText);
+
+		lblCountDown = new JLabel("00:00:05");
+		lblCountDown.setVisible(false);
+		lblCountDown.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCountDown.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblCountDown.setBounds(116, 82, 133, 31);
+		add(lblCountDown);
+
+		workoutThread = new Cronometer(false, 0, lblTimerWorkout, null, null);
+		exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
+		serieThread = new Cronometer(isCountdownStarted, -5, lblTimerSeries, null, null);
+		countDown = new Cronometer(true, 5, lblCountDown, lblCountDownText, "CountDown");
 
 		btnStop.addActionListener(new ActionListener() {
-			@SuppressWarnings("removal")
 			public void actionPerformed(ActionEvent e) {
 
 				if (isWorkingOut) {
@@ -162,13 +202,14 @@ public class ExercisesPanel extends JPanel {
 					isWorkingOut = true;
 					isStarted = true;
 					if (workoutThread.isAlive() && exerciseThread.isAlive()) {
-						exerciseThread.stop();
-						workoutThread.stop();
+						exerciseThread.interrupt();
+						workoutThread.interrupt();
 					}
-					exerciseThread = new Cronometer(false, 0, lblTimerExercise);
-					workoutThread = new Cronometer(false, 0, lblTimerWorkout);
+					exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
+					workoutThread = new Cronometer(false, 0, lblTimerWorkout, null, null);
 					exerciseThread.start();
 					workoutThread.start();
+					isCountdownStarted = !isCountdownStarted;
 				}
 
 			}
@@ -185,6 +226,7 @@ public class ExercisesPanel extends JPanel {
 					btnStop.setText("INICIAR");
 					exerciseThread.setFlag(false);
 					workoutThread.setFlag(false);
+					serieThread.setFlag(false);
 					isWorkingOut = false;
 				} else {
 					btnPause.setText("PAUSAR");
@@ -192,6 +234,7 @@ public class ExercisesPanel extends JPanel {
 					exerciseThread.setFlag(true);
 					workoutThread.setFlag(true);
 					isWorkingOut = true;
+					serieThread.setFlag(true);
 				}
 			}
 		});
@@ -201,8 +244,9 @@ public class ExercisesPanel extends JPanel {
 
 				try {
 					exercisesModel.setRowCount(0);
-					displaySelectedExerciseOnTable();
-					lblWorkoutsName.setText(UserSession.getInstance().getSelectedWorkout().getName());
+					currentExercise = UserSession.getInstance().getSelectedExerciseId();
+					displaySelectedExerciseOnTable(currentExercise);
+					lblWorkoutText.setText(UserSession.getInstance().getSelectedWorkout().getName());
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error");
 				}
@@ -227,16 +271,46 @@ public class ExercisesPanel extends JPanel {
 			}
 		});
 
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				currentExercise++;
+				if (currentExercise < UserSession.getInstance().getSelectedWorkout().getExercises().size()) {
+					try {
+						exercisesModel.setRowCount(0);
+						displaySelectedExerciseOnTable(currentExercise);
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No hay mas ejercicios");
+				}
+
+			}
+		});
+
+		btnStartSerie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (isCountdownStarted) {
+					countDown.start();
+					lblCountDownText.setVisible(true);
+					lblCountDown.setVisible(true);
+					isCountdownStarted = !isCountdownStarted;
+					serieThread.start();
+				}
+			}
+		});
+
 	}
 
-	private void displaySelectedExerciseOnTable() throws Exception {
+	private void displaySelectedExerciseOnTable(int exerciseSelected) throws Exception {
 
-		Object[] row = { UserSession.getInstance().getSelectedExecise().getName(),
-				UserSession.getInstance().getSelectedExecise().getSeries(),
-				UserSession.getInstance().getSelectedExecise().getDescription(),
-				UserSession.getInstance().getSelectedExecise().getRest() };
+		Exercise selectedExercise = UserSession.getInstance().getSelectedWorkout().getExercises().get(exerciseSelected);
+
+		Object[] row = { selectedExercise.getName(), selectedExercise.getSeries(), selectedExercise.getDescription(),
+				selectedExercise.getRest() };
 
 		exercisesModel.addRow(row);
 	}
-
 }
