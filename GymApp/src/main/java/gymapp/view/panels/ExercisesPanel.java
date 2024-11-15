@@ -36,6 +36,7 @@ public class ExercisesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	boolean isWorkingOut = false;
 	boolean isStarted = false;
+	boolean exerciseIsStarted = false;
 	boolean isCountdownStarted = false;
 	private int currentExercise = 0;
 	private JLabel lblWorkoutText;
@@ -200,6 +201,7 @@ public class ExercisesPanel extends JPanel {
 				} else {
 					btnStop.setText("PARAR");
 					btnPause.setText("PAUSAR");
+					exerciseIsStarted = true;
 					isWorkingOut = true;
 					isStarted = true;
 					lblTimerSeries.setText("00.00.00");
@@ -292,8 +294,10 @@ public class ExercisesPanel extends JPanel {
 					countDown.interrupt();
 					lblTimerExercise.setText("00.00.00");
 					lblTimerSeries.setText("00.00.00");
-					exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
-					exerciseThread.start();
+					if (exerciseIsStarted) {
+						exerciseThread = new Cronometer(false, 0, lblTimerExercise, null, null);
+						exerciseThread.start();
+					}
 					isCountdownStarted = true;
 				} else {
 					JOptionPane.showMessageDialog(null, "No hay mas ejercicios");

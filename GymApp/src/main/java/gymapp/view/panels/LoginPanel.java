@@ -94,7 +94,6 @@ public class LoginPanel extends JPanel {
 					user.setLogin(textUserName.getText());
 					user.setPassword(textPassword.getText());
 
-					System.out.println(CheckConectivity.hasConectivity());
 					if (CheckConectivity.hasConectivity()) {
 						userService = new UserService();
 						workoutService = new WorkoutService();
