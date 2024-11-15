@@ -7,11 +7,11 @@ public class Constants {
 	public static final String FIRESTORE_PROJECT_ID = "gym-app-3c700";
 
 	public static final String USER_COLLECTION = "users";
-	
+
 	public static final String WORKOUTS_COLLECTION = "workouts";
-	
+
 	public static final String EXERCISES_COLLECTION = "exercises";
-	
+
 	public static final String HISTORY_COLLECTION = "history";
 
 	public static final String USER_AUTHORITY_FIELD = "";
@@ -31,15 +31,15 @@ public class Constants {
 	public static final String USER_PASSWORD_FIELD = "";
 
 	public static final int LOGIN_PANEL_ID = 0;
-	
+
 	public static final int WORKOUTS_PANEL_ID = 2;
 
 	public static final int REGISTER_PANEL_ID = 1;
-	
+
 	public static final int HISTORY_PANEL_ID = 3;
-	
+
 	public static final int EXERCISES_PANEL_ID = 4;
-	
+
 	public static final int PROFILE_PANEL_ID = 5;
 
 	public static final String USER_CLIENT_ROLE = "Cliente";
@@ -52,14 +52,14 @@ public class Constants {
 
 	public static final String LOAD_BACKUP_WORKOUTS_COMMAND = "";
 
-	public static final String READ_BACKUP_WORKOUTS_COMMAND = "";
+	public static final String READ_BACKUP_WORKOUTS_COMMAND = "java .//gymapp//utils//ReadProcess.java";
 
 	public static final String READ_BACKUP_EXERCISES_COMMAND = "";
 
-	public static final String PROCESS_NAME= "CMD";
-	
-	public static final String WORKOUT_BACKUP_FILE_NAME= "./resources/workout-backup.dat";
-	
-	public static final String EXERCISE_BACKUP_FILE_NAME= "./resources/exercise-backup.dat";
+	public static final String PROCESS_NAME = "CMD";
+
+	public static final String WORKOUT_BACKUP_FILE_NAME = "./resources/workout-backup.dat";
+
+	public static final String EXERCISE_BACKUP_FILE_NAME = "./resources/exercise-backup.dat";
 
 }

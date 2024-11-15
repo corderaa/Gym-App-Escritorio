@@ -13,7 +13,6 @@ import java.util.List;
 import gymapp.model.domain.Exercise;
 import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
-import gymapp.utils.processes.ReadProcess;
 
 public class Backup {
 
@@ -67,12 +66,15 @@ public class Backup {
 
 		this.workouts = (List<Workout>) objectInputStream.readObject();
 
+		System.out.println(workouts);
+
 		objectInputStream.close();
+		process.destroy();
 	}
 
 	public void backupExercises(List<Exercise> exercises) throws FileNotFoundException, IOException {
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-				new FileOutputStream(new File(Constants.EXERCISE_BACKUP_FILE_NAME)));
+				new FileOutputStream(new File(Constants.EXERCISE_BACKUP_FILE_NAME), true));
 
 		objectOutputStream.writeObject(exercises);
 		objectOutputStream.close();
@@ -80,7 +82,7 @@ public class Backup {
 
 	public void backupWorkouts(List<Workout> workouts) throws FileNotFoundException, IOException {
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-				new FileOutputStream(new File(Constants.WORKOUT_BACKUP_FILE_NAME)));
+				new FileOutputStream(new File(Constants.WORKOUT_BACKUP_FILE_NAME), true));
 
 		objectOutputStream.writeObject(workouts);
 		objectOutputStream.close();

@@ -14,6 +14,7 @@ import gymapp.service.ExerciseService;
 import gymapp.service.UserService;
 import gymapp.service.WorkoutService;
 import gymapp.utils.Backup;
+import gymapp.utils.CheckConectivity;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 
@@ -85,32 +86,44 @@ public class LoginPanel extends JPanel {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(389, 486, 352, 14);
 		add(lblNewLabel);
-		
+
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					userService = new UserService();
-					workoutService = new WorkoutService();
 					User user = new User();
 					user.setLogin(textUserName.getText());
 					user.setPassword(textPassword.getText());
 
-					if (userService.checkCredentials(user)) {
+					System.out.println(CheckConectivity.hasConectivity());
+					if (CheckConectivity.hasConectivity()) {
+						userService = new UserService();
+						workoutService = new WorkoutService();
+						if (userService.checkCredentials(user)) {
 
-						UserSession.getInstance().setUser(userService.find(user));
-						Backup.getInstance().setUser(userService.find(user));
-						Backup.getInstance().backupWorkouts(workoutService.findAll());
+							UserSession.getInstance().setUser(userService.find(user));
+							Backup.getInstance().setUser(userService.find(user));
+							Backup.getInstance().backupWorkouts(workoutService.findAll());
+
+							changePanel(Constants.WORKOUTS_PANEL_ID, panels);
+							JOptionPane.showMessageDialog(null, "iniciado sesion correctamente"); // TODO: BORRAR PARA
+																									// CAMBIAR DE PANEL
+
+						} else {
+							UserSession.getInstance().setUser(Backup.getInstance().getUser());
+							JOptionPane.showMessageDialog(null, "ERROR: Algun campo esta mal introducido");
+						}
+					} else {
 
 						changePanel(Constants.WORKOUTS_PANEL_ID, panels);
 						JOptionPane.showMessageDialog(null, "is correct"); // TODO: BORRAR PARA CAMBIAR DE PANEL
-
-					} else {
-						JOptionPane.showMessageDialog(null, "ERROR: Algun campo esta mal introducido");
 					}
+
 				} catch (IOException e2) {
 					JOptionPane.showMessageDialog(null, "ERROR: " + e2.getMessage());
+					e2.printStackTrace();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "ERROR: " + e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});

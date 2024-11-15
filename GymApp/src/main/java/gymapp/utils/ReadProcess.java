@@ -1,10 +1,8 @@
-package gymapp.utils.processes;
+package gymapp.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-
-import gymapp.utils.Constants;
 
 public class ReadProcess {
 

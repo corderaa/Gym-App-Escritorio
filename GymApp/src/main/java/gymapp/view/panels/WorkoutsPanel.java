@@ -14,6 +14,7 @@ import gymapp.model.domain.User;
 import gymapp.model.domain.Workout;
 import gymapp.service.WorkoutService;
 import gymapp.utils.Backup;
+import gymapp.utils.CheckConectivity;
 import gymapp.utils.Constants;
 import gymapp.utils.UserSession;
 import java.awt.Color;
@@ -222,10 +223,11 @@ public class WorkoutsPanel extends JPanel {
 
 	private void displayWorkoutsTable() throws Exception {
 
-		WorkoutService workoutService = new WorkoutService();
-		try {
+		if (CheckConectivity.hasConectivity()) {
+			WorkoutService workoutService = new WorkoutService();
 			workoutList = workoutService.getfilteredWorkouts(workoutService.findAll());
-		} catch (Exception e) {
+		} else {
+			WorkoutService workoutService = new WorkoutService();
 			workoutList = workoutService.getfilteredWorkouts(Backup.getInstance().getWorkouts());
 		}
 
@@ -295,7 +297,7 @@ public class WorkoutsPanel extends JPanel {
 	}
 
 	private void hideColumn() {
-		
+
 		int idColumnIndex = exerciseModel.findColumn("Id Del Ejercicio");
 		if (idColumnIndex != -1) {
 			tableExercises.getColumnModel().getColumn(idColumnIndex).setMinWidth(0);
